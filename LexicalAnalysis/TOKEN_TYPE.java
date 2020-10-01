@@ -5,28 +5,29 @@ public enum TOKEN_TYPE {
     LITERAL_BOOL, 
     LITERAL_FLOAT, 
     LITERAL_NULL, 
-    EQ,
-    EQEQ,
-    LESS,
-    NOTEQ,
-    PLUS,
-    MINUS,
-    MULT,
-    DIV,
-    MOD,
-    AND,
-    NOT,
-    OPEN_PAR,
-    CLOSE_PAR,
-    OPEN_BRACK,
-    CLOSE_BRACK,
-    OPEN_BRACE,
-    CLOSE_BRACE,
-    SEMI_COLON,
-    COLON,
-    COLONCOLON,
-    DOT,
-    IF,
+    EQ, // =
+    EQEQ, // ==
+    LESS, // <
+    NOTEQ, // !=
+    PLUS, // +
+    MINUS,// -
+    MULT,// *
+    DIV,// /
+    MOD,// %
+    AND,// &&
+    NOT,// !
+    OPEN_ROUND, // (
+    CLOSE_ROUND, // )
+    OPEN_SQUARE, // [
+    CLOSE_SQUARE, // ]
+    OPEN_CURLY, // {
+    CLOSE_CURLY, // }
+    SEMI_COLON, // ;
+    COLON, // :
+    COLONCOLON, //  ::
+    COMMA, //  ,
+    DOT, // .
+    IF, 
     THEN,
     ELSE,
     DATA,
