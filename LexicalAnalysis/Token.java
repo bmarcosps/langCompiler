@@ -11,7 +11,7 @@ public class Token {
         this.l      = l; 
         this.c      = c;
     }
-
+    
     public Token(TOKEN_TYPE t, String lex, int l, int c){
         this.t      = t; 
         this.lexeme = lex; 

@@ -40,24 +40,24 @@ TYPE_IDENTIFIER=[A-Z]({ALPHA}|{DIGIT}|"_")*
 
 IDENTIFIER={ALPHA}({ALPHA}|{DIGIT}|"_")*
 
-NEWLINE= \r|\n|\r\n
-WHITESPACE={NEWLINE}|[\ \t\b\f]
+NEWLINE=\r|\n|\r\n
+WHITESPACE=[ \t\b]
 
+SPECIAL_CHAR=\\r|\\n|\\t|\\b|\\'|\\\"| |\\\\
 
-INTEGER=[\+\-]?{DIGIT}{DIGIT}*
-FLOAT=[-+]?{DIGIT}*\.?{DIGIT}+([eE][\+\-]?{DIGIT}+)?
-CHAR=\'[{ALPHA}{DIGIT}{WHITESPACE}]\'
-LOGIC=true|false
-NULL=null
+INTEGER={DIGIT}{DIGIT}*
+FLOAT={DIGIT}*\.{DIGIT}+
 
+CHAR=\'[{ALPHA}|{DIGIT}|{SPECIAL_CHAR}]\'
 
+BOOL=true|false
 
-
+//IMPLEMENTAR: COMENTÁRIO DE LINHA --
+//              COMENTÁRIO DE MÚLTIPLAS LINHAS
 %%
 
 <YYINITIAL>{
-    
-    
+
     "("             { return symbol (TOKEN_TYPE.OPEN_ROUND); } 
     ")"             { return symbol (TOKEN_TYPE.CLOSE_ROUND); } 
     "["             { return symbol (TOKEN_TYPE.OPEN_SQUARE); } 
@@ -68,9 +68,8 @@ NULL=null
     ";"             { return symbol (TOKEN_TYPE.SEMI_COLON);}
     ","             { return symbol (TOKEN_TYPE.COMMA);}
     ":"             { return symbol (TOKEN_TYPE.COLON);}
-    "::"             { return symbol (TOKEN_TYPE.COLONCOLON);}
+    "::"            { return symbol (TOKEN_TYPE.COLONCOLON);}
     "."             { return symbol (TOKEN_TYPE.DOT);}
-    
 
     "+"             { return symbol (TOKEN_TYPE.PLUS); } 
     "-"             { return symbol (TOKEN_TYPE.MINUS); } 
@@ -79,7 +78,6 @@ NULL=null
     "%"             { return symbol (TOKEN_TYPE.MOD); } 
     "&&"            { return symbol (TOKEN_TYPE.AND); } 
     "!"             { return symbol (TOKEN_TYPE.NOT); } 
-
 
     "="             { return symbol (TOKEN_TYPE.EQ); } 
     "=="            { return symbol (TOKEN_TYPE.EQEQ); } 
@@ -100,22 +98,17 @@ NULL=null
     "Bool"        { return symbol (TOKEN_TYPE.TYPE_BOOL);}
     "Float"       { return symbol (TOKEN_TYPE.TYPE_FLOAT);}
 
-    "null"        { return symbol (TOKEN_TYPE.LITERAL_NULL);}
+    {TYPE_IDENTIFIER}   { return symbol (TOKEN_TYPE.TYPE_CUSTOM); } 
 
-   
+    "null"              { return symbol (TOKEN_TYPE.LITERAL_NULL);}
 
+    {IDENTIFIER}        { return symbol (TOKEN_TYPE.ID); } 
+    {INTEGER}           { return symbol (TOKEN_TYPE.LITERAL_INT, Integer.parseInt(yytext())); } 
+    {FLOAT}             { return symbol (TOKEN_TYPE.LITERAL_FLOAT, Float.parseFloat(yytext())); } 
+    {CHAR}              { return symbol (TOKEN_TYPE.LITERAL_CHAR); }
+    {BOOL}              { return symbol (TOKEN_TYPE.LITERAL_BOOL, Boolean.parseBoolean(yytext())); }
 
-
-    
-    
-
-
-
-
-
-
-
-
+    {NEWLINE}|{WHITESPACE} { }
 }
 
 [^]                 { throw new RuntimeException("Illegal character <"+yytext()+">"); }
