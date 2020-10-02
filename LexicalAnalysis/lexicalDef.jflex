@@ -31,26 +31,40 @@
 %init}
 
 
-/* Agora vamos definir algumas macros */
+/*Macros para as expressões regulares*/
 ALPHA=[A-Za-z]
 DIGIT=[0-9]
-BOOLEAN=true|false
+BOOL=(true|false)
+
 
 TYPE_IDENTIFIER=[A-Z]({ALPHA}|{DIGIT}|"_")*
 
 IDENTIFIER={ALPHA}({ALPHA}|{DIGIT}|"_")*
 
-NEWLINE=\r|\n|\r\n
+NEWLINE=(\r|\n|\r\n)
 WHITESPACE=[ \t\b]
 
-SPECIAL_CHAR=\\r|\\n|\\t|\\b|\\'|\\\"| |\\\\
+SPECIAL_CHAR=\\r|\\n|\\t|\\b|\\'|\\\"|\\\\
 
 INTEGER={DIGIT}{DIGIT}*
 FLOAT={DIGIT}*\.{DIGIT}+
 
-CHAR=\'[{ALPHA}|{DIGIT}|{SPECIAL_CHAR}]\'
+CHAR=\'({ALPHA}|{DIGIT}|{SPECIAL_CHAR}|\ )\'
 
-BOOL=true|false
+MULTINE_COMMENT_START="{-"
+MULTINE_COMMENT_CONTENT=([^\-]|\-+([^\-\}]))*
+MULTINE_COMMENT_END=\-+\}
+
+
+
+LINE_COMMENT_START=--
+//LINE_COMMENT_CONTENT=
+LINE_COMMENT_END={NEWLINE}
+
+
+%state LINE_COMMENT
+
+%state MULTILNE_COMMENT
 
 //IMPLEMENTAR: COMENTÁRIO DE LINHA --
 //              COMENTÁRIO DE MÚLTIPLAS LINHAS
@@ -98,6 +112,7 @@ BOOL=true|false
     "Bool"        { return symbol (TOKEN_TYPE.TYPE_BOOL);}
     "Float"       { return symbol (TOKEN_TYPE.TYPE_FLOAT);}
 
+    {BOOL}              { return symbol (TOKEN_TYPE.LITERAL_BOOL, Boolean.parseBoolean(yytext())); }
     {TYPE_IDENTIFIER}   { return symbol (TOKEN_TYPE.TYPE_CUSTOM); } 
 
     "null"              { return symbol (TOKEN_TYPE.LITERAL_NULL);}
@@ -106,9 +121,25 @@ BOOL=true|false
     {INTEGER}           { return symbol (TOKEN_TYPE.LITERAL_INT, Integer.parseInt(yytext())); } 
     {FLOAT}             { return symbol (TOKEN_TYPE.LITERAL_FLOAT, Float.parseFloat(yytext())); } 
     {CHAR}              { return symbol (TOKEN_TYPE.LITERAL_CHAR); }
-    {BOOL}              { return symbol (TOKEN_TYPE.LITERAL_BOOL, Boolean.parseBoolean(yytext())); }
+    
+
+    {LINE_COMMENT_START}        {yybegin(LINE_COMMENT);}
+    {MULTINE_COMMENT_START}     {yybegin(MULTILNE_COMMENT);}
 
     {NEWLINE}|{WHITESPACE} { }
+}
+
+<LINE_COMMENT>{
+    {NEWLINE}           {yybegin(YYINITIAL);}
+    [^\n\r]*            {   } //não sei se esse vai funcionar assim
+}
+
+
+
+<MULTILNE_COMMENT>{
+    {MULTINE_COMMENT_END}          {yybegin(YYINITIAL);}
+    {MULTINE_COMMENT_CONTENT}      {   }
+
 }
 
 [^]                 { throw new RuntimeException("Illegal character <"+yytext()+">"); }
