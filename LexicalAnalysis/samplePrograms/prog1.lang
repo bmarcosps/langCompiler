@@ -18,14 +18,16 @@ fat (num :: Int) : Int { -- teste01 23456 789 ;
     teste
 -}
 
-{-----
-
-    teste -{-{
-----
---}
 
 divmod (num :: Int , div :: Int ) : Int , Int {
     q = num / div; 
     r = num % div;
     return q , r;
 }
+
+
+{-----
+
+    teste -{-{
+----
+------}

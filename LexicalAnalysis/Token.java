@@ -29,6 +29,6 @@ public class Token {
     }
     
     @Override public String toString(){
-        return "[("+l+","+ c+ ") \"" + lexeme + "\" : <" + (info == null ?"" : info.toString()) + ">]";
+        return "[("+l+","+ c+ ") \"" + lexeme + "\" : <" + (info == null ?"" : info.toString()) + ">"+ "\" : <" + t.toString() + ">]";
     }
 }

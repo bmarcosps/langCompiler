@@ -54,7 +54,7 @@ CHAR=\'({ALPHA}|{DIGIT}|{SPECIAL_CHAR}|\ )\'
 MULTINE_COMMENT_START="{-"
 MULTINE_COMMENT_CONTENT=([^\-]|\-+([^\-\}]))*
 MULTINE_COMMENT_END=\-+\}
-
+//(\/*([^]|[\r\n]|(*+([^/]|[\r\n])))*+\/)|(\/\/.)
 
 
 LINE_COMMENT_START=--
@@ -99,13 +99,14 @@ LINE_COMMENT_END={NEWLINE}
     "!="            { return symbol (TOKEN_TYPE.NOTEQ); } 
 
     "if"             { return symbol (TOKEN_TYPE.IF);}
-    "then"           { return symbol (TOKEN_TYPE.THEN);}
+    //"then"           { return symbol (TOKEN_TYPE.THEN);}
     "else"           { return symbol (TOKEN_TYPE.ELSE);}
     "data"           { return symbol (TOKEN_TYPE.DATA);}
     "iterate"        { return symbol (TOKEN_TYPE.ITERATE);}
     "read"           { return symbol (TOKEN_TYPE.READ);}
     "print"          { return symbol (TOKEN_TYPE.PRINT);}
     "return"         { return symbol (TOKEN_TYPE.RETURN);}
+    "new"            { return symbol (TOKEN_TYPE.NEW);}
 
     "Int"         { return symbol (TOKEN_TYPE.TYPE_INT);}
     "Char"        { return symbol (TOKEN_TYPE.TYPE_CHAR);}
@@ -120,7 +121,7 @@ LINE_COMMENT_END={NEWLINE}
     {IDENTIFIER}        { return symbol (TOKEN_TYPE.ID); } 
     {INTEGER}           { return symbol (TOKEN_TYPE.LITERAL_INT, Integer.parseInt(yytext())); } 
     {FLOAT}             { return symbol (TOKEN_TYPE.LITERAL_FLOAT, Float.parseFloat(yytext())); } 
-    {CHAR}              { return symbol (TOKEN_TYPE.LITERAL_CHAR); }
+    {CHAR}              { return symbol (TOKEN_TYPE.LITERAL_CHAR, yytext().substring(1, yytext().length()-1)); }
     
 
     {LINE_COMMENT_START}        {yybegin(LINE_COMMENT);}

@@ -10,5 +10,6 @@ public class Teste{
             t = lx.nextToken();
         }
         System.out.println("Total de tokens lidos " + lx.numTokens());
+            
     }
 }
