@@ -1,0 +1,33 @@
+main() {
+    print fat (10);
+}
+
+-- teste ---- teste -- teste - teste {- teste - -- - 
+--------- teste ---- teste -- teste - teste {- teste - -- - 
+
+fat (num :: Int) : Int { -- teste01 23456 789 ;
+	if (num < 1)
+		return 1;
+	else
+        return num * fat (num-1);
+}
+
+{- teste -}
+
+{-
+    teste
+-}
+
+
+divmod (num :: Int , div :: Int ) : Int , Int {
+    q = num / div; 
+    r = num % div;
+    return q , r;
+}
+
+
+{-----
+
+    teste -{-{
+sdas-------}--
+------}
