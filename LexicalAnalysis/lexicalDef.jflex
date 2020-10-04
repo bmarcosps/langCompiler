@@ -51,23 +51,17 @@ FLOAT={DIGIT}*\.{DIGIT}+
 
 CHAR=\'({ALPHA}|{DIGIT}|{SPECIAL_CHAR}|\ )\'
 
-MULTINE_COMMENT_START="{-"
+
 MULTINE_COMMENT_CONTENT=([^\-]|\-+([^\-\}]))*
 MULTINE_COMMENT_END=\-+\}
-//(\/*([^]|[\r\n]|(*+([^/]|[\r\n])))*+\/)|(\/\/.)
 
 
-LINE_COMMENT_START=--
-//LINE_COMMENT_CONTENT=
-LINE_COMMENT_END={NEWLINE}
 
 
 %state LINE_COMMENT
 
 %state MULTILNE_COMMENT
 
-//IMPLEMENTAR: COMENTÁRIO DE LINHA --
-//              COMENTÁRIO DE MÚLTIPLAS LINHAS
 %%
 
 <YYINITIAL>{
@@ -96,6 +90,7 @@ LINE_COMMENT_END={NEWLINE}
     "="             { return symbol (TOKEN_TYPE.EQ); } 
     "=="            { return symbol (TOKEN_TYPE.EQEQ); } 
     "<"             { return symbol (TOKEN_TYPE.LESS); } 
+    ">"             { return symbol (TOKEN_TYPE.GREATER); } 
     "!="            { return symbol (TOKEN_TYPE.NOTEQ); } 
 
     "if"             { return symbol (TOKEN_TYPE.IF);}
@@ -124,15 +119,15 @@ LINE_COMMENT_END={NEWLINE}
     {CHAR}              { return symbol (TOKEN_TYPE.LITERAL_CHAR, yytext().substring(1, yytext().length()-1)); }
     
 
-    {LINE_COMMENT_START}        {yybegin(LINE_COMMENT);}
-    {MULTINE_COMMENT_START}     {yybegin(MULTILNE_COMMENT);}
+    "--"        {yybegin(LINE_COMMENT);}
+    "{-"        {yybegin(MULTILNE_COMMENT);}
 
     {NEWLINE}|{WHITESPACE} { }
 }
 
 <LINE_COMMENT>{
     {NEWLINE}           {yybegin(YYINITIAL);}
-    [^\n\r]*            {   } //não sei se esse vai funcionar assim
+    [^\n\r]*            {   } 
 }
 
 

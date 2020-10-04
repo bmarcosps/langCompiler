@@ -8,6 +8,7 @@ public enum TOKEN_TYPE {
     EQ, // =
     EQEQ, // ==
     LESS, // <
+    GREATER,// >
     NOTEQ, // !=
     PLUS, // +
     MINUS,// -
@@ -27,8 +28,7 @@ public enum TOKEN_TYPE {
     COLONCOLON, //  ::
     COMMA, //  ,
     DOT, // .
-    IF, 
-    //THEN,
+    IF,
     ELSE,
     DATA,
     ITERATE,

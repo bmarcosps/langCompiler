@@ -7,7 +7,7 @@ public class Token {
     public Token(TOKEN_TYPE t, String lex, Object o , int l, int c){
         this.t      = t; 
         this.lexeme = lex; 
-        this.info   = 0; 
+        this.info   = o; 
         this.l      = l; 
         this.c      = c;
     }
