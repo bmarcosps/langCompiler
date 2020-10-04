@@ -29,5 +29,5 @@ divmod (num :: Int , div :: Int ) : Int , Int {
 {-----
 
     teste -{-{
-----
+sdas-------}--
 ------}

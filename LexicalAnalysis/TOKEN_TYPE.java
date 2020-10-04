@@ -1,10 +1,15 @@
+/*
+    Bruno Marcos Pinheiro da Silva
+    201565552AC
+*/
+
 public enum TOKEN_TYPE {
     ID, 
     LITERAL_INT, 
     LITERAL_CHAR, 
     LITERAL_BOOL, 
     LITERAL_FLOAT, 
-    LITERAL_NULL, 
+    LITERAL_NULL,
     EQ, // =
     EQEQ, // ==
     LESS, // <

@@ -1,3 +1,7 @@
+/*
+    Bruno Marcos Pinheiro da Silva
+    201565552AC
+*/
 %%
 
 %unicode
@@ -65,7 +69,7 @@ MULTINE_COMMENT_END=\-+\}
 %%
 
 <YYINITIAL>{
-
+    /* Símbolos */
     "("             { return symbol (TOKEN_TYPE.OPEN_ROUND); } 
     ")"             { return symbol (TOKEN_TYPE.CLOSE_ROUND); } 
     "["             { return symbol (TOKEN_TYPE.OPEN_SQUARE); } 
@@ -93,8 +97,8 @@ MULTINE_COMMENT_END=\-+\}
     ">"             { return symbol (TOKEN_TYPE.GREATER); } 
     "!="            { return symbol (TOKEN_TYPE.NOTEQ); } 
 
+    /* Palavras reservadas */
     "if"             { return symbol (TOKEN_TYPE.IF);}
-    //"then"           { return symbol (TOKEN_TYPE.THEN);}
     "else"           { return symbol (TOKEN_TYPE.ELSE);}
     "data"           { return symbol (TOKEN_TYPE.DATA);}
     "iterate"        { return symbol (TOKEN_TYPE.ITERATE);}
@@ -108,17 +112,19 @@ MULTINE_COMMENT_END=\-+\}
     "Bool"        { return symbol (TOKEN_TYPE.TYPE_BOOL);}
     "Float"       { return symbol (TOKEN_TYPE.TYPE_FLOAT);}
 
-    {BOOL}              { return symbol (TOKEN_TYPE.LITERAL_BOOL, Boolean.parseBoolean(yytext())); }
-    {TYPE_IDENTIFIER}   { return symbol (TOKEN_TYPE.TYPE_CUSTOM); } 
-
     "null"              { return symbol (TOKEN_TYPE.LITERAL_NULL);}
+    {BOOL}              { return symbol (TOKEN_TYPE.LITERAL_BOOL, Boolean.parseBoolean(yytext())); }
 
+    /* Tipos e identificadores*/
+    {TYPE_IDENTIFIER}   { return symbol (TOKEN_TYPE.TYPE_CUSTOM); } 
     {IDENTIFIER}        { return symbol (TOKEN_TYPE.ID); } 
+
+    /* Literais */
     {INTEGER}           { return symbol (TOKEN_TYPE.LITERAL_INT, Integer.parseInt(yytext())); } 
     {FLOAT}             { return symbol (TOKEN_TYPE.LITERAL_FLOAT, Float.parseFloat(yytext())); } 
     {CHAR}              { return symbol (TOKEN_TYPE.LITERAL_CHAR, yytext().substring(1, yytext().length()-1)); }
     
-
+    /* Comentários */
     "--"        {yybegin(LINE_COMMENT);}
     "{-"        {yybegin(MULTILNE_COMMENT);}
 
