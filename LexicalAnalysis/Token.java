@@ -32,6 +32,7 @@ public class Token {
     public String printTokenFormat(){
         switch(t){
             case ID :
+            //case TYPE_CUSTOM :
             case LITERAL_INT :
             case LITERAL_CHAR :
             case LITERAL_BOOL :
@@ -50,7 +51,6 @@ public class Token {
             case TYPE_CHAR :
             case TYPE_BOOL :
             case TYPE_FLOAT :
-            case TYPE_CUSTOM :
                 return t.toString();
             case EQ :
             case EQEQ :

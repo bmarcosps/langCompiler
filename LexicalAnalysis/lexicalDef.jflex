@@ -38,28 +38,25 @@
 /*Macros para as expressões regulares*/
 ALPHA=[A-Za-z]
 DIGIT=[0-9]
-BOOL=(true|false)
+LITERAL_BOOL=(true|false)
 
 
-TYPE_IDENTIFIER=[A-Z]({ALPHA}|{DIGIT}|"_")*
+//TYPE_IDENTIFIER=[A-Z]({ALPHA}|{DIGIT}|"_")*
 
 IDENTIFIER={ALPHA}({ALPHA}|{DIGIT}|"_")*
 
 NEWLINE=(\r|\n|\r\n)
 WHITESPACE=[ \t\b]
 
-SPECIAL_CHAR=\\r|\\n|\\t|\\b|\\'|\\\"|\\\\
+SPECIAL_CHAR=\\(r|n|t|b|\'|\"|\\)
 
-INTEGER={DIGIT}{DIGIT}*
-FLOAT={DIGIT}*\.{DIGIT}+
+LITERAL_INT={DIGIT}{DIGIT}*
+LITERAL_FLOAT={DIGIT}*\.{DIGIT}+
+LITERAL_CHAR=\'({SPECIAL_CHAR}|[^\'\"\\])\'
+LITERAL_NULL=null
 
-CHAR=\'({ALPHA}|{DIGIT}|{SPECIAL_CHAR}|\ )\'
-
-
-MULTINE_COMMENT_CONTENT=([^\-]|\-+([^\-\}]))*
+MULTINE_COMMENT_CONTENT=([^\-]|\-+([^\-\}]))+
 MULTINE_COMMENT_END=\-+\}
-
-
 
 
 %state LINE_COMMENT
@@ -112,17 +109,17 @@ MULTINE_COMMENT_END=\-+\}
     "Bool"        { return symbol (TOKEN_TYPE.TYPE_BOOL);}
     "Float"       { return symbol (TOKEN_TYPE.TYPE_FLOAT);}
 
-    "null"              { return symbol (TOKEN_TYPE.LITERAL_NULL);}
-    {BOOL}              { return symbol (TOKEN_TYPE.LITERAL_BOOL, Boolean.parseBoolean(yytext())); }
+    {LITERAL_NULL}              { return symbol (TOKEN_TYPE.LITERAL_NULL);}
+    {LITERAL_BOOL}              { return symbol (TOKEN_TYPE.LITERAL_BOOL, Boolean.parseBoolean(yytext())); }
 
     /* Tipos e identificadores*/
-    {TYPE_IDENTIFIER}   { return symbol (TOKEN_TYPE.TYPE_CUSTOM); } 
+    //{TYPE_IDENTIFIER}   { return symbol (TOKEN_TYPE.TYPE_CUSTOM); } 
     {IDENTIFIER}        { return symbol (TOKEN_TYPE.ID); } 
 
     /* Literais */
-    {INTEGER}           { return symbol (TOKEN_TYPE.LITERAL_INT, Integer.parseInt(yytext())); } 
-    {FLOAT}             { return symbol (TOKEN_TYPE.LITERAL_FLOAT, Float.parseFloat(yytext())); } 
-    {CHAR}              { return symbol (TOKEN_TYPE.LITERAL_CHAR, yytext().substring(1, yytext().length()-1)); }
+    {LITERAL_INT}           { return symbol (TOKEN_TYPE.LITERAL_INT, Integer.parseInt(yytext())); } 
+    {LITERAL_FLOAT}             { return symbol (TOKEN_TYPE.LITERAL_FLOAT, Float.parseFloat(yytext())); } 
+    {LITERAL_CHAR}              { return symbol (TOKEN_TYPE.LITERAL_CHAR, yytext()); }
     
     /* Comentários */
     "--"        {yybegin(LINE_COMMENT);}
@@ -133,7 +130,7 @@ MULTINE_COMMENT_END=\-+\}
 
 <LINE_COMMENT>{
     {NEWLINE}           {yybegin(YYINITIAL);}
-    [^\n\r]*            {   } 
+    [^\n\r]+            {   } 
 }
 
 

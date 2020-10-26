@@ -45,6 +45,6 @@ public enum TOKEN_TYPE {
     TYPE_CHAR,
     TYPE_BOOL,
     TYPE_FLOAT,
-    TYPE_CUSTOM,
+    //TYPE_CUSTOM,
 }
     
