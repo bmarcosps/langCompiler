@@ -1,5 +1,5 @@
 main() {
-    print fat (10);
+    print fat(10);
 }
 
 -- teste ---- teste -- teste - teste {- teste - -- - 

@@ -5,8 +5,8 @@ data Racional {
 
 
 main() {
-    print fat (10);
-
+    print fat(10);
+}
     Bool bool_var = true;
     Int a = 0;
 
