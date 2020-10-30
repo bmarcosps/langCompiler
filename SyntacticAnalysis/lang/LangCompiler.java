@@ -1,6 +1,5 @@
 package lang;
 
-import java.io.*;
 import lang.parser.*;
 import lang.ast.*;
 
@@ -26,7 +25,7 @@ public class LangCompiler{
           
        }
        try{
-	   ParseAdaptor langParser = null;
+	      ParseAdaptor langParser = new FinalParser();
           
           if(args[0].equals("-bs") ){
               System.out.println("Executando bateria de testes sintáticos:");

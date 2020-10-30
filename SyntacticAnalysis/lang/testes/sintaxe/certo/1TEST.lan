@@ -1,0 +1,32 @@
+data Ponto {
+   x :: Float;
+   y :: Float;
+}
+
+data Ponto2 {
+   x :: Int;
+   y :: Char;
+}
+
+fat(num :: Int) : Int {
+if( num < 1 )
+    return 1;
+else
+    return num * fat(num-1)[0];
+}
+
+main(l :: Int){
+   p = new Ponto;
+   z = new Int[][2*l];
+   x = 1 * (2 + (2 + 3));
+   x = 1 * ! (2 + ! 2 )- -2;
+   a = '\n';
+   a = 'n';
+   a = '\\';
+   a = '.';
+   print fat(10)[0];
+   z[0] = new Int[10];
+   f(z[0])< x >;
+   wrong = new Int;
+   print p.x;
+}

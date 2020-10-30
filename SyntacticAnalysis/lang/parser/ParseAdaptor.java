@@ -1,16 +1,15 @@
 package lang.parser;
 
-import java.io.*;
 import lang.ast.SuperNode;
-import lang.parser.*;
-import java.util.List;
+
+import java.io.IOException;
 
 
-// Adaptador para classe de parser. a Função parseFile deve retornar null caso o parser resulte em erro. 
+// Adaptador para classe de lang.parser. a Função parseFile deve retornar null caso o lang.parser resulte em erro.
 
-public interface ParseAdaptor{
-   public abstract SuperNode parseFile(String path);
-   
+public interface ParseAdaptor {
+   public abstract SuperNode parseFile(String path) throws IOException;
+
 }
 
 
