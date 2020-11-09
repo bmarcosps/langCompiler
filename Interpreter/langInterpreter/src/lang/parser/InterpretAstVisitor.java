@@ -35,7 +35,7 @@ public class  InterpretAstVisitor extends Visitor {
         Node main = null;
 
         for(Data d: p.getDatas()){
-            datas.put(d.id,d);
+           d.accept(this);
         }
 
         for(Func f : p.getFuncs()){
@@ -53,24 +53,26 @@ public class  InterpretAstVisitor extends Visitor {
 
     @Override
     public void visit(Data d) {
-        /* Acho que não é usado também */
+        datas.put(d.id,d);
     }
 
     @Override
     public void visit(Param p) {
-        /* Acho que não é usado */
+        env.peek().put(p.paramId, operands.pop());
     }
 
     @Override
     public void visit(Func f) {
         HashMap<String,Object> localEnv = new HashMap<String,Object>();
+        env.push(localEnv);
 
         for(int  i = f.paramList.size()-1; i >= 0; i--){
-            localEnv.put(f.paramList.get(i).paramId, operands.pop());
+            f.paramList.get(i).accept(this);
         }
-        env.push(localEnv);
+
         for(Cmd c : f.functionCmds){
             c.accept(this);
+            if(retMode){ return;}
         }
 
         if(debug && f.funcId.equals("main") ){
@@ -584,13 +586,12 @@ public class  InterpretAstVisitor extends Visitor {
         try{
 
             e.newType.accept(this);
+            Type bt = stk.pop();
 
             Integer size = 0;
             ArrayList val = null;
 
             if(e.newExp != null){
-                stk.clear();
-
                 e.newExp.accept(this);
                 size = (Integer)operands.pop();
 
@@ -606,8 +607,6 @@ public class  InterpretAstVisitor extends Visitor {
                 */
                 operands.push(val);
             } else {
-                Type bt = stk.pop();
-
                 assert bt instanceof TypeData;
                 HashMap<String, Object> x = new HashMap<>();
                 Data d = datas.get(((TypeData) bt).typeString);
@@ -616,7 +615,8 @@ public class  InterpretAstVisitor extends Visitor {
                 }
                 operands.push(x);
             }
-            //stk.push(bt);
+            stk.clear();
+
         }catch(Exception x){
             throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") " + x.getMessage() );
         }
@@ -636,10 +636,10 @@ public class  InterpretAstVisitor extends Visitor {
                 Integer pos = (Integer) operands.pop();
                 Object result = null;
 
-                if(pos >= f.paramList.size() || pos < 0)
+                if(pos >= f.returnTypeList.size() || pos < 0)
                     throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Índice inválido. ");
 
-                for(int  i = f.paramList.size()-1; i >= 0; i--){
+                for(int  i = f.returnTypeList.size()-1; i >= 0; i--){
                     if(pos == i){
                         result = operands.pop();
                     } else {
@@ -705,9 +705,8 @@ public class  InterpretAstVisitor extends Visitor {
     @Override
     public void visit(LvalueID e) {
         try{
-
             Object r = env.peek().get(e.id);
-            if(r != null){
+            if(r != null || env.peek().containsKey(e.id)){
                 if(e.selectors.size() != 0){
                     for(Lvalue lv : e.selectors){
                         lv.accept(this);

@@ -15,17 +15,7 @@ public class BuildAstVisitor extends LangParserBaseVisitor<SuperNode> {
         int line = ctx.getStart().getLine();
         int column = ctx.getStart().getCharPositionInLine();
         Prog progNode = new Prog(line, column);
-        //List<SuperNode> resultList = new LinkedList<>();
 
-        /*
-        SuperNode result = this.defaultResult();
-        int n = ctx.getChildCount();
-        for(int i = 0; i < n && this.shouldVisitNextChild(ctx, result); ++i) {
-            ParseTree c = ctx.getChild(i);
-            SuperNode childResult = c.accept(this);
-            progNode.appendDataFunc((Node) this.aggregateResult(result, childResult));
-        }
-        */
         SuperNode result = this.defaultResult();
         int n = ctx.data().size();
         for(int i = 0; i < n && this.shouldVisitNextChild(ctx, result); ++i) {
@@ -52,7 +42,6 @@ public class BuildAstVisitor extends LangParserBaseVisitor<SuperNode> {
         int line = ctx.getStart().getLine();
         int column = ctx.getStart().getCharPositionInLine();
         Data dataNode = new Data(line, column, ctx.ID.getText());
-
 
         SuperNode result = this.defaultResult();
         int n = ctx.decl().size();

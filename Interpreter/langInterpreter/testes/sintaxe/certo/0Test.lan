@@ -1,11 +1,21 @@
-data Ponto {
-   x :: Float;
-   y :: Float;
+main( ) {
+    print teste(10)[0];
 }
 
-main(){
-   l = 2;
-   p = new Ponto;
-   read p.x;
-   print p.x;
+
+teste(num :: Int ) : Int , Char{
+    x = 20;
+    return x , 'a';
+    x = 10;
+    print x;
+    return x , 'b';
+
+}
+
+
+fat(num :: Int ) : Int , Char{
+    if (num < 1)
+        return 1 , 'a';
+    else
+        return num * fat(num-1)[0] , 'b';
 }
