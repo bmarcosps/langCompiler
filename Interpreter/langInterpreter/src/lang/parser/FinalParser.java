@@ -33,11 +33,7 @@ public class FinalParser implements ParseAdaptor {
             InterpretAstVisitor iav = new InterpretAstVisitor();
             result.accept(iav);
             System.out.println("\n ---------------------------------------  \n");
-            //ParseTree tree = parser.prog();
-            //String parsedTree = tree.toStringTree(parser);
-            //result = new Node(parser.getCurrentToken().getLine(), parser.getCurrentToken().getCharPositionInLine());
 
-            //System.out.println(parsedTree);
             return result;
 
         } catch (Exception e) {

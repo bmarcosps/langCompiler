@@ -12,7 +12,6 @@ import java.util.List;
 public class CmdFunctionCall extends Cmd {
     public String funcId;
     public List<Exp> exps;
-    /** TODO: change to lvalue */
     public List<Lvalue> lvals;
 
     public CmdFunctionCall(int line, int column, String funcId) {

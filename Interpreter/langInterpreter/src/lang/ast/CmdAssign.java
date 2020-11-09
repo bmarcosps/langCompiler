@@ -16,7 +16,6 @@ public class CmdAssign extends Cmd {
         this.setValExp(valExp);
     }
 
-    /** TODO: change to lvalue*/
     public LvalueID getLval() {
         return lval;
     }

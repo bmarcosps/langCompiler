@@ -45,7 +45,7 @@ public class  InterpretAstVisitor extends Visitor {
             }
         }
         if(main == null){
-            throw new RuntimeException( "Não há uma função chamada main ! abortando ! ");
+            throw new RuntimeException( "Function main not found! aborting ! ");
         }
         main.accept(this);
 
@@ -93,7 +93,6 @@ public class  InterpretAstVisitor extends Visitor {
         try{
             for(Cmd c : e.cmdList){
                 c.accept(this);
-                /* TODO: verificar retMode */
                 if(retMode){ return;}
             }
         }catch(Exception x){
@@ -132,8 +131,7 @@ public class  InterpretAstVisitor extends Visitor {
     public void visit(CmdRead e) {
         try{
             Scanner scan = new Scanner(System.in);
-            //LvalueTest
-            /* TODO: get lvalue type ? */
+
             Object userInput = scan.nextLine();
 
             /* Código idêntico ao assign */
@@ -272,7 +270,7 @@ public class  InterpretAstVisitor extends Visitor {
                 }
 
             }else{
-                throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Função não definida " +  e.funcId);
+                throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Undefined function" +  e.funcId);
             }
 
         }catch(Exception x){
@@ -291,7 +289,7 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Integer)left + (Float)right);
                     } else {
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else if(leftClass == Float.class){
                     if(rightClass == Integer.class){
@@ -299,10 +297,10 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Float)left + (Float) right);
                     } else{
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else{
-                    throw new ArithmeticException("Tipos de dado inválidos.");
+                    throw new ArithmeticException("Invalid data type.");
                 }
                 break;
             case '-':
@@ -312,7 +310,7 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Integer)left - (Float)right);
                     } else {
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else if(leftClass == Float.class){
                     if(rightClass == Integer.class){
@@ -320,10 +318,10 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Float)left - (Float) right);
                     } else{
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else{
-                    throw new ArithmeticException("Tipos de dado inválidos.");
+                    throw new ArithmeticException("Invalid data type.");
                 }
                 break;
             case '*':
@@ -333,7 +331,7 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Integer)left * (Float)right);
                     } else {
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else if(leftClass == Float.class){
                     if(rightClass == Integer.class){
@@ -341,10 +339,10 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Float)left * (Float) right);
                     } else{
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else{
-                    throw new ArithmeticException("Tipos de dado inválidos.");
+                    throw new ArithmeticException("Invalid data type.");
                 }
                 break;
 
@@ -355,7 +353,7 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Integer)left / (Float)right);
                     } else {
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else if(leftClass == Float.class){
                     if(rightClass == Integer.class){
@@ -363,10 +361,10 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Float)left / (Float) right);
                     } else{
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else{
-                    throw new ArithmeticException("Tipos de dado inválidos.");
+                    throw new ArithmeticException("Invalid data type.");
                 }
                 break;
             case '<':
@@ -376,7 +374,7 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Integer)left < (Float)right);
                     } else {
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else if(leftClass == Float.class){
                     if(rightClass == Integer.class){
@@ -384,10 +382,10 @@ public class  InterpretAstVisitor extends Visitor {
                     } else if (rightClass == Float.class){
                         operands.push((Float)left < (Float) right);
                     } else{
-                        throw new ArithmeticException("Tipos de dado inválidos.");
+                        throw new ArithmeticException("Invalid data type.");
                     }
                 }else{
-                    throw new ArithmeticException("Tipos de dado inválidos.");
+                    throw new ArithmeticException("Invalid data type.");
                 }
                 break;
         }
@@ -564,7 +562,7 @@ public class  InterpretAstVisitor extends Visitor {
             }else if(rightClass == Float.class){
                 operands.push( - right.floatValue());
             }else{
-                throw new ArithmeticException("Tipos de dado inválidos.");
+                throw new ArithmeticException("Invalid data type.");
             }
 
         }catch(Exception x){
@@ -628,7 +626,7 @@ public class  InterpretAstVisitor extends Visitor {
                 Object result = null;
 
                 if(pos >= f.returnTypeList.size() || pos < 0)
-                    throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Índice inválido. ");
+                    throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Invalid Index. ");
 
                 for(int  i = f.returnTypeList.size()-1; i >= 0; i--){
                     if(pos == i){
@@ -639,7 +637,7 @@ public class  InterpretAstVisitor extends Visitor {
                 }
                 operands.push(result);
             }else{
-                throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Função não definida " +  e.funcId);
+                throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Undefined function " +  e.funcId);
             }
 
         }catch(Exception x){
@@ -647,7 +645,6 @@ public class  InterpretAstVisitor extends Visitor {
         }
     }
 
-    /* TODO check literal boxing */
     @Override
     public void visit(LiteralBool e) {
         try{
@@ -701,7 +698,6 @@ public class  InterpretAstVisitor extends Visitor {
                 if(e.selectors.size() != 0){
                     for(Lvalue lv : e.selectors){
                         lv.accept(this);
-                        /* TODO ???? */
                         if(lv instanceof LvalueSelect){
                             r = ((HashMap<String,Object>) r).get( (String) operands.pop());
                         } else if(lv instanceof LvalueArray){
@@ -717,7 +713,7 @@ public class  InterpretAstVisitor extends Visitor {
                 }
                 operands.push(r);
             } else {
-                throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") variável não declarada " +e.id);
+                throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") undeclared variable " +e.id);
             }
         }catch(Exception x){
             throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") " + x.getMessage() );

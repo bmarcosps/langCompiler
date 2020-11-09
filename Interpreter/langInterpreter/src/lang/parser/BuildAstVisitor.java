@@ -60,10 +60,9 @@ public class BuildAstVisitor extends LangParserBaseVisitor<SuperNode> {
         int line = ctx.getStart().getLine();
         int column = ctx.getStart().getCharPositionInLine();
         Type t = (Type) ctx.type().accept(this);
-        /* TODO: VERIFICAR ESSE ID*/
+
         Decl declNode = new Decl(line, column, ctx.ID().getText(), t);
 
-        //eturn super.visitDecl(ctx);
         return declNode;
     }
 

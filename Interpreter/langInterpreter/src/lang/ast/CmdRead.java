@@ -7,7 +7,6 @@ package lang.ast;
 import lang.parser.Visitor;
 
 public class CmdRead extends Cmd {
-    /** TODO: change to lvalue*/
     public LvalueID lval;
 
     public CmdRead(int line, int column, LvalueID lval) {
