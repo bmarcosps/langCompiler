@@ -119,9 +119,9 @@ public class  InterpretAstVisitor extends Visitor {
     public void visit(CmdIterate e) {
         try{
             e.testExp.accept(this);
-            while( (Boolean)operands.pop()){
+            Integer expResult = (Integer) operands.pop();
+            for(int i = 0; i < expResult; i++){
                 e.itrCmd.accept(this);
-                e.testExp.accept(this);
             }
         }catch(Exception x){
             throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") " + x.getMessage() );
