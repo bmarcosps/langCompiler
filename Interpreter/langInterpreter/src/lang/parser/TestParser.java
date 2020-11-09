@@ -32,9 +32,9 @@ public class TestParser {
                inst = f.listFiles();
                for(File s : inst){
                    pth = s.getPath();
-                   System.out.print("Testando " + pth + filler(50 -pth.length()) + "[");
+                   System.out.print("Testando " + pth + filler(50 -pth.length()));
                    if(adp.parseFile(s.getPath()) != null){
-                       System.out.println("  OK  ]");
+                       System.out.println("[  OK  ]");
                        flips++;
                    }else{ 
                       System.out.println("FALHOU]");

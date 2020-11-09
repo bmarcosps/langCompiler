@@ -4,7 +4,7 @@ f(x :: Int){
    print y;
 }
 
-main(v :: Int[], f :: Float){
+main(){
   z = 10;
-  f(z);
+  print f(z);
 }

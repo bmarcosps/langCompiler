@@ -72,7 +72,7 @@ public class  InterpretAstVisitor extends Visitor {
 
         for(Cmd c : f.functionCmds){
             c.accept(this);
-            if(retMode){ return;}
+            if(retMode){ break; }
         }
 
         if(debug && f.funcId.equals("main") ){
@@ -136,10 +136,7 @@ public class  InterpretAstVisitor extends Visitor {
             /* TODO: get lvalue type ? */
             Object userInput = scan.nextLine();
 
-            //operands.push(userInput)
-
-            /* TODO: get operand and set to lvalue */
-            //e.lval.accept(this);
+            /* Código idêntico ao assign */
             LvalueID v = e.lval;
             if(!v.selectors.isEmpty()){
                 Object arr = (Object)env.peek().get(v.id);
@@ -152,7 +149,6 @@ public class  InterpretAstVisitor extends Visitor {
                     } else {
                         arr = ((ArrayList) arr).get( (Integer) select );
                     }
-                    //if()
 
                 }
                 v.selectors.get(v.selectors.size()-1).accept(this);
@@ -168,7 +164,6 @@ public class  InterpretAstVisitor extends Visitor {
                 env.peek().put(e.lval.id, userInput);
             }
 
-            //System.out.println(operands.pop().toString());
         }catch(Exception x){
             throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") " + x.getMessage() );
         }
@@ -199,7 +194,6 @@ public class  InterpretAstVisitor extends Visitor {
             LvalueID v = e.getLval();
             e.getValExp().accept(this);
             Object val = operands.pop();
-            /* TODO: implementar lvalues */
 
             if(!v.selectors.isEmpty()){
                 Object arr = (Object)env.peek().get(v.id);
@@ -212,7 +206,6 @@ public class  InterpretAstVisitor extends Visitor {
                     } else {
                         arr = ((ArrayList) arr).get( (Integer) select );
                     }
-                    //if()
 
                 }
                 v.selectors.get(v.selectors.size()-1).accept(this);
@@ -228,9 +221,6 @@ public class  InterpretAstVisitor extends Visitor {
                 env.peek().put(e.getLval().id, val);
             }
 
-            //v.accept(this);
-
-            //env.peek().put(e.getLval(), val);
         }catch(Exception x){
             throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") " + x.getMessage() );
         }
@@ -246,14 +236,15 @@ public class  InterpretAstVisitor extends Visitor {
                 for(Exp exp : e.exps){
                     exp.accept(this);
                 }
+
                 // Executa a função
                 f.accept(this);
-                /* TODO: pegar returns e adicionar nas variaveis */
-                // Trata os retornos
+
+                // Trata os retornos, alocando nos endereços corretos
                 for(int i = e.lvals.size()-1; i >= 0; i--){
                     Object val = operands.pop();
                     LvalueID v = (LvalueID) e.lvals.get(i);
-                    /* Código copiado do assign */
+                    /* Código idêntico ao assign */
                     if(!v.selectors.isEmpty()){
                         Object arr = (Object)env.peek().get(v.id);
 

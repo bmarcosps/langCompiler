@@ -1,5 +1,5 @@
 main( ) {
-    print teste(10)[0];
+    print teste(10)[1];
 }
 
 

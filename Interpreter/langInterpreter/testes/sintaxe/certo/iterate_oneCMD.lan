@@ -1,4 +1,5 @@
 main(){
-  iterate(10) 
-     x = 10;
+  y = 10;
+  iterate(y > 0)
+     y = y-1;
 }
