@@ -4,7 +4,7 @@
 */
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class CmdAssign extends Cmd {
     private LvalueID lval;

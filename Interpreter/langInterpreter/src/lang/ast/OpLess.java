@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class OpLess extends BinOp {
     public OpLess(int line, int column, Exp left, Exp right) {

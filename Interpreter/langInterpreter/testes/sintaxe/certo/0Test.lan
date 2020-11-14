@@ -1,5 +1,12 @@
 main( ) {
-    print teste(10)[1];
+    x = new Int[];
+
+    print x;
+
+    teste(10)<x, y>;
+        print x;
+    print y;
+
 }
 
 

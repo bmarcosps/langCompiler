@@ -4,7 +4,7 @@
 */
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class LvalueSelect extends Lvalue {
     public String selectorID;

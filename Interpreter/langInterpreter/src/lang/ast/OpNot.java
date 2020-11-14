@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class OpNot extends UnOp  {
     public OpNot(int line, int column, Exp right) {

@@ -4,7 +4,7 @@
 */
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class ExpNew extends Exp {
     public Type newType;

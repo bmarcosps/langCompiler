@@ -5,11 +5,7 @@
 package lang.ast;
 
 
-import lang.parser.Visitor;
-import org.antlr.v4.runtime.misc.Pair;
-
-import java.util.LinkedList;
-import java.util.List;
+import lang.visitor.Visitor;
 
 public class Param extends Node {
     public String paramId;

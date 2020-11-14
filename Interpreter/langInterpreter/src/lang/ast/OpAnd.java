@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class OpAnd extends BinOp{
     public OpAnd(int line, int column, Exp left, Exp right) {

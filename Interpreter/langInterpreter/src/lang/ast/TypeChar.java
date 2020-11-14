@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class TypeChar extends Type {
     public TypeChar(int line, int column) {

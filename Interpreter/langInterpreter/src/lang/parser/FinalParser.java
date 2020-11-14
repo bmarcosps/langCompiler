@@ -4,11 +4,9 @@
 */
 package lang.parser;
 
-import lang.ast.Node;
 import lang.ast.SuperNode;
+import lang.visitor.InterpretAstVisitor;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.ParseCancellationException;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
 

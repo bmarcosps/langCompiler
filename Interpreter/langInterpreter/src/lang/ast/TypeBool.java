@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class TypeBool extends Type {
     public TypeBool(int line, int column) {

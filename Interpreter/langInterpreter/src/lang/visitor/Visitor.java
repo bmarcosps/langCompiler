@@ -1,4 +1,4 @@
-package lang.parser;
+package lang.visitor;
 
 import lang.ast.*;
 public abstract  class  Visitor {

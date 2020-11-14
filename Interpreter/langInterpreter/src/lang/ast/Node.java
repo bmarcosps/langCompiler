@@ -4,8 +4,6 @@
 */
 package lang.ast;
 
-import lang.parser.Visitor;
-
 public abstract class Node extends SuperNode {
     int line, column;
 

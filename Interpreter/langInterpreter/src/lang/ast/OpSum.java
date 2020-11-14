@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class OpSum  extends BinOp {
     public OpSum(int line, int column, Exp left, Exp right) {

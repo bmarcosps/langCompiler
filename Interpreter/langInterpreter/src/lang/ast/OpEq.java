@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class OpEq extends BinOp {
     public OpEq(int line, int column, Exp left, Exp right) {

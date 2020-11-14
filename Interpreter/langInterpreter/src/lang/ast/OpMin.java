@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class OpMin extends UnOp {
     public OpMin(int line, int column, Exp right) {

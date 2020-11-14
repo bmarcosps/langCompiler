@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class OpNotEq  extends BinOp {
     public OpNotEq(int line, int column, Exp left, Exp right) {

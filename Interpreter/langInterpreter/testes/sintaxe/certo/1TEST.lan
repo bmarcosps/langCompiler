@@ -10,7 +10,7 @@ data PontoArray {
 
 main(){
     l = 2;
-    x = new Int[1];
+    x = new Int[][];
     print x;
 
     y = new PontoArray[5];
@@ -21,7 +21,7 @@ main(){
 
     print y[0].x;
 
-{-
+
    x = new Int[][10];
    x[0] = new Int[5];
    x[0][0] = 55;
@@ -35,6 +35,6 @@ main(){
    print y[0][1].x;
 
    print y[0];
-  -}
+
 }
 

@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class TypeFloat extends Type {
     public TypeFloat(int line, int column) {

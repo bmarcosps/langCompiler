@@ -4,8 +4,7 @@
 */
 package lang.ast;
 
-import lang.parser.Visitor;
-import org.antlr.v4.runtime.misc.Pair;
+import lang.visitor.Visitor;
 
 import java.util.LinkedList;
 import java.util.List;

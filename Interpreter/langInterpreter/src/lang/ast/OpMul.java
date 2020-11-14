@@ -1,6 +1,6 @@
 package lang.ast;
 
-import lang.parser.Visitor;
+import lang.visitor.Visitor;
 
 public class OpMul  extends BinOp {
     public OpMul(int line, int column, Exp left, Exp right) {

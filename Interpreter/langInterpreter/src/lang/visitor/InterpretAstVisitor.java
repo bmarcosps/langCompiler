@@ -1,4 +1,4 @@
-package lang.parser;
+package lang.visitor;
 
 import lang.ast.*;
 
@@ -147,7 +147,6 @@ public class  InterpretAstVisitor extends Visitor {
                     } else {
                         arr = ((ArrayList) arr).get( (Integer) select );
                     }
-
                 }
                 v.selectors.get(v.selectors.size()-1).accept(this);
                 Object select = operands.pop();
@@ -204,8 +203,8 @@ public class  InterpretAstVisitor extends Visitor {
                     } else {
                         arr = ((ArrayList) arr).get( (Integer) select );
                     }
-
                 }
+
                 v.selectors.get(v.selectors.size()-1).accept(this);
                 Object select = operands.pop();
 
@@ -219,7 +218,7 @@ public class  InterpretAstVisitor extends Visitor {
                 env.peek().put(e.getLval().id, val);
             }
 
-        }catch(Exception x){
+        }catch(Exception x) {
             throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") " + x.getMessage() );
         }
 
@@ -588,21 +587,21 @@ public class  InterpretAstVisitor extends Visitor {
                 for(int k = 0; k < size; k++ ) {
                     val.add(null);
                 }
-                /*
-                while (stk.size() != 0){
-                    val.add(null);
-                    stk.pop();
-                }
-                */
+
                 operands.push(val);
             } else {
-                assert bt instanceof TypeData;
-                HashMap<String, Object> x = new HashMap<>();
-                Data d = datas.get(((TypeData) bt).typeString);
-                for(Decl dec : d.decls){
-                    x.put(dec.id, null);
+                if(bt instanceof TypeData) {
+                    HashMap<String, Object> x = new HashMap<>();
+                    Data d = datas.get(((TypeData) bt).typeString);
+                    for(Decl dec : d.decls){
+                        x.put(dec.id, null);
+                    }
+                    operands.push(x);
+                } else {
+                    Object x = new Object();
+                    operands.push(x);
                 }
-                operands.push(x);
+
             }
             stk.clear();
 

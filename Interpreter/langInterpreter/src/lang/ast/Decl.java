@@ -4,10 +4,7 @@
 */
 package lang.ast;
 
-import lang.parser.Visitor;
-
-import java.util.LinkedList;
-import java.util.List;
+import lang.visitor.Visitor;
 
 public class Decl extends Node{
     public String id;
