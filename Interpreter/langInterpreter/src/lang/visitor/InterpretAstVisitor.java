@@ -39,10 +39,21 @@ public class  InterpretAstVisitor extends Visitor {
         }
 
         for(Func f : p.getFuncs()){
-            funcs.put(f.funcId,f);
-            if(f.funcId.equals("main")){
+            funcs.put(f.funcIdTypes,f);
+            if(f.funcIdTypes.equals("main")){
                 main = f;
             }
+            /*
+            String id = f.funcId;
+            if(!f.funcId.equals("main")) {
+                for (Param par : f.paramList) {
+                    id += par.paramType.toString();
+                }
+            }else {
+                main = f;
+            }
+            funcs.put(id,f);
+             */
         }
         if(main == null){
             throw new RuntimeException( "Function main not found! aborting ! ");
@@ -75,7 +86,7 @@ public class  InterpretAstVisitor extends Visitor {
             if(retMode){ break; }
         }
 
-        if(debug && f.funcId.equals("main") ){
+        if(debug && f.funcIdTypes.equals("main") ){
             Object[] x = env.peek().keySet().toArray();
             System.out.println("-------------- Memoria ----------------");
             for(int i =0; i < x.length; i++){
@@ -227,7 +238,12 @@ public class  InterpretAstVisitor extends Visitor {
     @Override
     public void visit(CmdFunctionCall e) {
         try{
-            Func f = funcs.get(e.funcId);
+            //String id = e.funcId;
+            //for (Param par : e.paramList) {
+            //    id += par.paramType.toString();
+            //}
+
+            Func f = funcs.get(e.funcIdTypes);
             if(f != null){
                 // Coloca parâmetros nos operandos
                 for(Exp exp : e.exps){
@@ -269,7 +285,7 @@ public class  InterpretAstVisitor extends Visitor {
                 }
 
             }else{
-                throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Undefined function" +  e.funcId);
+                throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") Undefined function " +  e.funcId);
             }
 
         }catch(Exception x){
@@ -613,7 +629,7 @@ public class  InterpretAstVisitor extends Visitor {
     @Override
     public void visit(ExpFunctionCall e) {
         try{
-            Func f = funcs.get(e.funcId);
+            Func f = funcs.get(e.funcIdTypes);
             if(f != null){
                 for(Exp exp : e.argExps){
                     exp.accept(this);

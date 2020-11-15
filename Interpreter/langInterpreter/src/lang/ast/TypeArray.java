@@ -25,5 +25,10 @@ public class TypeArray extends Type {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Array";
+    }
+
     public void accept(Visitor v){ v.visit(this);}
 }

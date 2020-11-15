@@ -5,6 +5,7 @@
 package lang.parser;
 
 import lang.ast.SuperNode;
+import lang.visitor.CheckTypeVisitor;
 import lang.visitor.InterpretAstVisitor;
 import org.antlr.v4.runtime.*;
 
@@ -28,8 +29,13 @@ public class FinalParser implements ParseAdaptor {
             BuildAstVisitor pv = new BuildAstVisitor();
             result = pv.visit(parser.prog());
 
+            CheckTypeVisitor ctv = new CheckTypeVisitor();
+            result.accept(ctv);
+
+
             InterpretAstVisitor iav = new InterpretAstVisitor();
             result.accept(iav);
+
             System.out.println("\n ---------------------------------------  \n");
 
             return result;

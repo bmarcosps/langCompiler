@@ -9,6 +9,10 @@ public class TypeData extends Type {
         super(line, column);
         this.typeString = typeString;
     }
+    @Override
+    public String toString() {
+        return "Data";
+    }
 
     @Override
     public void accept(Visitor v) {

@@ -3,23 +3,33 @@ package lang.type;
 
 public class STyFunc extends SType {
 
-    private SType ty[];
+    private SType tyParams[];
+    private SType tyReturns[];
 
-    public STyFunc(SType t[]){
-        ty = t;
+    public STyFunc(SType tparam[], SType treturn[]){
+        tyParams = tparam;
+        tyReturns = treturn;
     }
 
 
-    public SType[] getTypes(){ return ty; }
+    public SType[] getTypesParams(){ return tyParams; }
+    public SType[] getTypesReturns(){ return tyReturns; }
 
     public boolean match(SType v){
         boolean r = false;
-        if(  v instanceof STyFunc ){
-            if(((STyFunc)v).getTypes().length == ty.length ){
+        if( v instanceof STyFunc ){
+            if(((STyFunc)v).getTypesParams().length == tyParams.length ){
                 r = true;
-                for(int i = 0; i< ty.length; i++ ){
-                    r = r && ty[i].match( ((STyFunc)v).getTypes()[i] );
+                for(int i = 0; i< tyParams.length; i++ ){
+                    r = r && tyParams[i].match( ((STyFunc)v).getTypesParams()[i] );
                 }
+            }
+            if(((STyFunc)v).getTypesReturns().length == tyReturns.length ){
+                for(int i = 0; i< tyReturns.length; i++ ){
+                    r = r && tyReturns[i].match( ((STyFunc)v).getTypesReturns()[i] );
+                }
+            } else {
+                r = false;
             }
         }
         return r;
@@ -27,10 +37,16 @@ public class STyFunc extends SType {
 
     public String toString(){
         String s = "";
-        if(ty.length > 0){
-            s = ty[0].toString();
-            for(int i =1; i < ty.length; i++){
-                s += "->" + ty[i].toString();
+        if(tyParams.length > 0){
+            s = tyParams[0].toString();
+            for(int i = 1; i < tyParams.length; i++){
+                s += "->" + tyParams[i].toString();
+            }
+        }
+        s+= " || ";
+        if(tyReturns.length > 0){
+            for(int i = 0; i < tyReturns.length; i++){
+                s += "->" + tyReturns[i].toString();
             }
         }
         return s;

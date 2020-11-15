@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ExpFunctionCall extends Exp {
     public String funcId;
+    public String funcIdTypes;
     public List<Exp> argExps;
     public Exp selectorExp;
 
@@ -19,6 +20,7 @@ public class ExpFunctionCall extends Exp {
         this.funcId = funcId;
         this.argExps = argExps;
         this.selectorExp = selectorExp;
+        this.funcIdTypes = "";
     }
 
     public ExpFunctionCall(int line, int column, String funcId, Exp selectorExp) {
@@ -26,6 +28,7 @@ public class ExpFunctionCall extends Exp {
         this.funcId = funcId;
         this.argExps = new LinkedList<>();
         this.selectorExp = selectorExp;
+        this.funcIdTypes = "";
     }
 
     public void setArgExps(List<Exp> argExps) {

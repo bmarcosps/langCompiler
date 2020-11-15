@@ -1,0 +1,13 @@
+f(x :: Int) : Int, Float{
+     if(x < 10){
+        y = 10.0;
+     }else{ y = 10;}
+
+     return y, 1.0;
+}
+
+main(){
+  z = 10;
+  x = 20;
+  f(z)< x, w>;
+}

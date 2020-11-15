@@ -1,4 +1,9 @@
+f(x :: Int){
+   y = 2*x  + 1;
+   print y;
+}
+
 main(){
-  x = !(10 < 10);
-  print x;
+  z = 10;
+  f(z);
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 public class CmdFunctionCall extends Cmd {
     public String funcId;
+    public String funcIdTypes;
     public List<Exp> exps;
     public List<Lvalue> lvals;
 
@@ -20,6 +21,7 @@ public class CmdFunctionCall extends Cmd {
         this.lvals = new LinkedList<>();
 
         this.funcId = funcId;
+        this.funcIdTypes = "";
         //this.exps = exps;
         //this.lvals = lvals;
     }

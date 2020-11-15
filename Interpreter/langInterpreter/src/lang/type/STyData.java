@@ -1,6 +1,41 @@
 package lang.type;
 
+import java.util.HashMap;
+
 public class STyData extends SType {
+    private HashMap<String,SType> ty;
+
+    public STyData(HashMap<String,SType> ty){
+        this.ty = ty;
+    }
+
+    public HashMap<String,SType> getTypes(){ return ty; }
+
+    public boolean match(SType v){
+        boolean r = false;
+        if(  v instanceof STyData ){
+            if(((STyData)v).getTypes().size() == ty.size() ){
+                r = true;
+                for (HashMap.Entry<String,SType> pair : ty.entrySet()) {
+                    r = r && pair.getValue().match( ((STyData)v).getTypes().get(pair.getKey()));
+                }
+            }
+        }
+        return r;
+    }
+
+    public String toString(){
+        String s = "";
+        if(ty.size() > 0){
+            for (HashMap.Entry<String,SType> pair : ty.entrySet()) {
+                s += pair.getKey() + " " + pair.getValue().toString() + "; ";
+            }
+        }
+        return s;
+    }
+
+
+   /*
     private SType ty[];
 
     public STyData(SType t[]){
@@ -32,6 +67,7 @@ public class STyData extends SType {
         }
         return s;
     }
+    */
 }
 
 
