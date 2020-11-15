@@ -50,7 +50,7 @@ public class CheckTypeVisitor extends Visitor {
                 dataTypes.put(d.decls.get(i).id, stk.pop());
                 //dataTypes[i] = stk.pop();
             }
-            td = new STyData(dataTypes);
+            td = new STyData(d.id, dataTypes);
             /*TODO: oq fazer????*/
             datas.put(d.id, td);
         }
@@ -119,9 +119,11 @@ public class CheckTypeVisitor extends Visitor {
 
         //Verifica se função retorna algum valor e se procedimentos NÃO retornam
         if (!retChk && f.returnTypeList.size() > 0) {
+            stk.push(tyerr);
             logError.add(f.getLine() + ", " + f.getColumn() + ": Function " + f.funcId + " must return a value.");
         }
         if (retChk && f.returnTypeList.isEmpty()) {
+            stk.push(tyerr);
             logError.add(f.getLine() + ", " + f.getColumn() + ": Function " + f.funcId + " must NOT return a value.");
         }
     }
@@ -137,7 +139,7 @@ public class CheckTypeVisitor extends Visitor {
     public void visit(TypeData t) {
         // adiciona um tipo data à pilha de tipos com dos tipos disponíveis para aquela Data
         STyData test = (STyData) datas.get(t.typeString);
-        stk.push(new STyData(test.getTypes()));
+        stk.push(new STyData(test.getId(), test.getTypes()));
     }
 
     @Override
@@ -187,6 +189,7 @@ public class CheckTypeVisitor extends Visitor {
             }
             retChk = rt && re;
         }else{
+            stk.push(tyerr);
             logError.add( e.getLine() + ", " + e.getColumn() + ": IF test expression must be Boolean");
         }
     }
@@ -199,6 +202,7 @@ public class CheckTypeVisitor extends Visitor {
         if(stk.pop().match(tyint)){
             e.itrCmd.accept(this);
         }else{
+            stk.push(tyerr);
             logError.add( e.getLine() + ", " + e.getColumn() + ": ITERATE test expression must be Integer");
         }
     }
@@ -217,6 +221,7 @@ public class CheckTypeVisitor extends Visitor {
             e.lval.accept(this); // tipo da variavel
 
             if (!stk.pop().match(tyint)) {
+                stk.push(tyerr);
                 logError.add(e.getLine() + ", " + e.getColumn() + ": Atribuição ilegal para a variável " + e.lval.id);
             }
         }
@@ -241,6 +246,7 @@ public class CheckTypeVisitor extends Visitor {
             SType[] t = ((STyFunc) temp.getFuncType()).getTypesReturns();
             for(int i = e.returnExp.size()-1; i >=0 ; i--){
                 if(!t[i].match(stk.pop())){
+                    stk.push(tyerr);
                     logError.add(e.getLine() + ", " + e.getColumn() + ": Invalid Return Type");
                 }
             }
@@ -264,6 +270,7 @@ public class CheckTypeVisitor extends Visitor {
             e.getLval().accept(this); // tipo da variavel
             e.getValExp().accept(this); // tipo da expressao
             if (!stk.pop().match(stk.pop())) {
+                stk.push(tyerr);
                 logError.add(e.getLine() + ", " + e.getColumn() + ": Atribuição ilegal para a variável " + e.getLval().id);
             }
         }
@@ -509,6 +516,7 @@ public class CheckTypeVisitor extends Visitor {
         if(e.newExp != null){ //Array
             e.newExp.accept(this);
             if(!stk.pop().match(tyint)){
+                stk.push(tyerr);
                 logError.add(e.getLine() + ", " + e.getColumn() + ": Index must be integer.");
             }
         }

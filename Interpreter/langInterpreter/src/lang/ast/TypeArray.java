@@ -26,8 +26,8 @@ public class TypeArray extends Type {
     }
 
     @Override
-    public String toString() {
-        return "Array";
+    public String toString(){
+        return argType.toString() + "[]";
     }
 
     public void accept(Visitor v){ v.visit(this);}

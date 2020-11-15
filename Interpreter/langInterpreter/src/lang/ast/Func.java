@@ -23,7 +23,7 @@ public class Func extends Node {
         this.functionCmds = new LinkedList<>();
         this.returnTypeList = new LinkedList<>();
         this.paramList = new LinkedList<>();
-        this.funcIdTypes = "";
+        this.funcIdTypes = funcId;
     }
 
     public void setParams(List<Param> p){

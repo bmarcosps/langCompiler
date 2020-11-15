@@ -3,9 +3,16 @@ data Ponto {
    y :: Float;
 }
 
+data Ponto2 {
+   x :: Float;
+   y :: Float;
+}
+
 main(){
    p = new Ponto;
-   q = new Ponto;
-   p.x = q;
-
+   q = new Ponto2;
+   p = q;
+   print p;
+   p.x = 2.0;
+   print q;
 }

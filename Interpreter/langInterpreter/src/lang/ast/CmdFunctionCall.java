@@ -21,7 +21,7 @@ public class CmdFunctionCall extends Cmd {
         this.lvals = new LinkedList<>();
 
         this.funcId = funcId;
-        this.funcIdTypes = "";
+        this.funcIdTypes = funcId;
         //this.exps = exps;
         //this.lvals = lvals;
     }

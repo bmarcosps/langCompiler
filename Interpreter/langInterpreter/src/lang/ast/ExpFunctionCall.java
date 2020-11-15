@@ -20,7 +20,7 @@ public class ExpFunctionCall extends Exp {
         this.funcId = funcId;
         this.argExps = argExps;
         this.selectorExp = selectorExp;
-        this.funcIdTypes = "";
+        this.funcIdTypes = funcId;
     }
 
     public ExpFunctionCall(int line, int column, String funcId, Exp selectorExp) {
@@ -28,7 +28,7 @@ public class ExpFunctionCall extends Exp {
         this.funcId = funcId;
         this.argExps = new LinkedList<>();
         this.selectorExp = selectorExp;
-        this.funcIdTypes = "";
+        this.funcIdTypes = funcId;
     }
 
     public void setArgExps(List<Exp> argExps) {

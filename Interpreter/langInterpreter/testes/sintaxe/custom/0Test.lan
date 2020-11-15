@@ -7,4 +7,6 @@ main(){
   z = 10;
   x = 1;
   f(z)< x, w>;
+  print x;
+  print w;
 }
