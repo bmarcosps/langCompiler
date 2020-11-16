@@ -14,7 +14,7 @@ import java.io.IOException;
 public class FinalParser implements ParseAdaptor {
 
     public SuperNode parseFile(String path) throws IOException {
-        System.out.println("\n --------------------------------------- ");
+        System.out.println("\n--------------------------------------- ");
         LangLexer lexer = new LangLexer(CharStreams.fromFileName(path));
         LangParser parser = new LangParser(new CommonTokenStream(lexer));
 
@@ -29,20 +29,18 @@ public class FinalParser implements ParseAdaptor {
             BuildAstVisitor pv = new BuildAstVisitor();
             result = pv.visit(parser.prog());
 
+
+            System.out.println("[  Cheking Types  ]");
             CheckTypeVisitor ctv = new CheckTypeVisitor();
             result.accept(ctv);
 
-
+            System.out.println("[  Interpreting  ]");
             InterpretAstVisitor iav = new InterpretAstVisitor();
             result.accept(iav);
-
-            System.out.println("\n ---------------------------------------  \n");
-
             return result;
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("\n --------------------------------------- \n");
             return null;
         }
 

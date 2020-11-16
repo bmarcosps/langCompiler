@@ -13,14 +13,12 @@ public class CheckTypeVisitor extends Visitor {
     private STyNull tynull = STyNull.newSTyNull();
     private STyErr tyerr = STyErr.newSTyErr();
 
-
     private ArrayList<String> logError;
 
     private HashMap<String, SType> datas;
 
     private TyEnv<LocalEnv<SType>> env;
     private LocalEnv<SType> temp;
-
 
     private Stack<SType> stk;
     private boolean retChk;
@@ -537,8 +535,6 @@ public class CheckTypeVisitor extends Visitor {
         } else {
             e.newType.accept(this);
         }
-
-
     }
 
     @Override

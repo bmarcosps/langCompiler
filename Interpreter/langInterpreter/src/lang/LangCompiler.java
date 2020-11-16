@@ -37,13 +37,14 @@ public class LangCompiler{
               return;
           } if(args[0].equals("-bsm") ){
               System.out.println("Executando bateria de testes sintáticos:");
-              // TestParser tp = new TestParser(langParser); 
+              // TestParser tp = new TestParser(langParser);
               return;
           }
           if(args.length != 2){
               System.out.println("Para usar essa opção, especifique um nome de arquivo");
               return; 
           }
+
           SuperNode result = langParser.parseFile(args[1]);
           if(result == null){
                System.err.println("Aborting due to syntax error(s)");

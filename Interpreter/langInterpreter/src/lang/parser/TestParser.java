@@ -6,7 +6,7 @@ import java.io.*;
 
 public class TestParser {
    private ParseAdaptor adp;
-   private String okSrcs = "testes/sintaxe/certo/";
+   private String okSrcs = "testes/sintaxe/custom/";
    private File f;
    
    public TestParser(ParseAdaptor adp){
@@ -35,9 +35,11 @@ public class TestParser {
                    System.out.print("Testando " + pth + filler(50 -pth.length()));
                    if(adp.parseFile(s.getPath()) != null){
                        System.out.println("[  OK  ]");
+                       System.out.println("\n--------------------------------------- \n");
                        flips++;
                    }else{ 
-                      System.out.println("FALHOU]");
+                      System.out.println("[ FAILED ]");
+                       System.out.println("\n--------------------------------------- \n");
                       flops++;
                    }
                }

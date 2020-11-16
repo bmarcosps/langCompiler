@@ -31,13 +31,14 @@ public class STyData extends SType {
         return r;
     }
 
+    @Override
     public String toString(){
-        String s = id + " ";
-        if(ty.size() > 0){
+        String s = id;// + " ";
+        /*if(ty.size() > 0){
             for (HashMap.Entry<String,SType> pair : ty.entrySet()) {
                 s += pair.getKey() + " " + pair.getValue().toString() + "; ";
             }
-        }
+        }*/
         return s;
     }
 
