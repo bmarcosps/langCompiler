@@ -41,13 +41,13 @@ public class CheckTypeVisitor extends Visitor {
     @Override
     public void visit(Prog p){
         // todas as definições de data devem ser bem tipadas
+        // para isso, todos os campos declarados devem ser bem tipados
         for(Data d : p.getDatas()){
             STyData td;
-            HashMap<String, SType> dataTypes = new HashMap<>();// = new SType[d.decls.size()];
+            HashMap<String, SType> dataTypes = new HashMap<>();
             for(int i = 0; i < d.decls.size(); i++ ){
                 d.decls.get(i).type.accept(this);
                 dataTypes.put(d.decls.get(i).id, stk.pop());
-                //dataTypes[i] = stk.pop();
             }
             td = new STyData(d.id, dataTypes);
             /*TODO: oq fazer????*/
@@ -55,7 +55,9 @@ public class CheckTypeVisitor extends Visitor {
         }
 
         // todas as definições de função devem ser bem tipadas
+        // todos os parâmetros e retornos devem ter tipos bem definidos
         for(Func f : p.getFuncs()){
+            // O ID das funções carregam os tipos de parâmetros associados
             String id = f.funcId;
             STyFunc ty;
             SType[] paramTypes = new SType[f.paramList.size()];
@@ -70,6 +72,7 @@ public class CheckTypeVisitor extends Visitor {
                 returnTypes[i] = stk.pop();
             }
             ty = new STyFunc(paramTypes, returnTypes);
+            // Este campo é utilizado no interpretador para utilizar as funções corretas
             f.funcIdTypes = id;
             env.set(id, new LocalEnv<SType>(f.funcId, ty));
         }
@@ -259,6 +262,9 @@ public class CheckTypeVisitor extends Visitor {
 
     @Override
     public void visit(CmdAssign e) {
+        // atribuição é bem tipada se a variável e a expressão atribuída possuem o mesmo tipo
+        // se a variável não estava definida ainda, define e atribui o tipo
+        // o tipo null não pode ser atribuido a uma variavel nova, somente a variaveis do tipo array ou data
 
         //se não esta declarado ainda e é uma variavel normal
         if (temp.get(e.getLval().id) == null && (e.getLval().selectors.size() == 0)) {
@@ -284,6 +290,10 @@ public class CheckTypeVisitor extends Visitor {
 
     @Override
     public void visit(CmdFunctionCall e) {
+        // confere os tipos das expressoes de parametros e procura uma funcao existente no ambiente
+        // caso a função exista, verifica se os tipos de retorno também estão corretos
+            // neste caso, criamos as variaveis de retorno que não existem e conferimos os tipos daquelas já existentes
+
         String id = e.funcId;
         SType[] paramTypes = new SType[e.exps.size()];
         for (int i = 0; i < e.exps.size(); i++) {
@@ -301,11 +311,18 @@ public class CheckTypeVisitor extends Visitor {
 
                     LvalueID lv = (LvalueID)e.lvals.get(i);
                     if (temp.get(lv.id) == null && lv.selectors.size() == 0) {
-                        // se não esta declarado ainda, adiciona o tipo do retorno
-                        temp.set(lv.id, tf.getTypesReturns()[i]);
+                        // se não esta declarado ainda, adiciona o tipo do retorno, conferindo o tipo null
+                        //temp.set(lv.id, tf.getTypesReturns()[i]);
+                        /*TODO testar mudança */
+                        if(!tf.getTypesReturns()[i].match(tynull)){
+                            temp.set(lv.id, tf.getTypesReturns()[i]);
+                        } else {
+                            stk.push(tyerr);
+                            logError.add(e.getLine() + ", " + e.getColumn() + ": Illegal null attribution to non-array or non-data variable " + lv.id);
+                        }
+
                     } else { // se já está declarada ou se é algum outro tipo
                         lv.accept(this); // tipo da variavel
-                        //e..accept(this); // tipo da expressao
 
                         if (!stk.pop().match(tf.getTypesReturns()[i])) {
                             logError.add(e.getLine() + ", " + e.getColumn() + ": Illegal Variable attribution " + lv.id);
@@ -323,6 +340,9 @@ public class CheckTypeVisitor extends Visitor {
         }
     }
 
+    /* Tipos aritiméticos são bem tipados se aplicados sobre os mesmos tipos */
+    /* no caso de módulo --> somente para inteiros */
+    /* geram o tipo a que foram aplicados */
     private void checkArithmeticType(SType left, SType right, int line, int col, Character op) {
         String e = line + ", " + col + ": Operator " + op + " does not apply to types " + left.toString() + " and " + right.toString();
         switch (op){
@@ -354,13 +374,10 @@ public class CheckTypeVisitor extends Visitor {
         }
     }
 
+    /* Tipos relacionais são bem tipados se aplicados sobre os mesmos tipos */
+    /* no caso de menor que --> somente para números */
+    /* geram um tipo boleano */
     private void checkRelationalType(SType left, SType right, int line, int col, String op) {
-        /*
-        || (right.match(tyfloat) && left.match(tyfloat))
-        || (right.match(tychar) && left.match(tychar))
-        || (right.match(tychar) && left.match(tychar))
-        || (right.match(tybool) && left.match(tybool)))
-        */
         String e = line + ", " + col + ": Operator " + op + " does not apply to types " + left.toString() + " and " + right.toString();
         switch (op){
             case "==":
@@ -388,6 +405,7 @@ public class CheckTypeVisitor extends Visitor {
         }
     }
 
+    /* Not somente aplicado a booleano e negativo a numeros */
     private void checkUnaryType(SType right, int line, int col, Character op) {
         String e = line + ", " + col + ": Operator " + op + " does not apply to type " + right.toString();
         switch (op){
@@ -517,6 +535,8 @@ public class CheckTypeVisitor extends Visitor {
 
     @Override
     public void visit(ExpNew e) {
+        // o New adiciona um tipo à pilha. Sua tipagem é conferida somente quanto ao seletor, que deve ser inteiro
+
         // o tipo new é definido pelo tipo base
         // se tiver um seletor (ou seja, um array), crio o tipo array com o tipo base
         // senão, é algum outro tipo --> Data
@@ -539,6 +559,10 @@ public class CheckTypeVisitor extends Visitor {
 
     @Override
     public void visit(ExpFunctionCall e) {
+        // confere os tipos das expressoes de parametros e procura uma funcao existente no ambiente
+        // caso a função exista, encontra o VALOR do seletor, que selecionar o retorno
+        // neste caso definimos que sempre será um literal inteiro, por isso conseguir selecioná-lo
+        // adiciona o tipo do retorno selecionado à pilha
 
         String id = e.funcId;
         SType[] paramTypes = new SType[e.argExps.size()];
@@ -573,6 +597,7 @@ public class CheckTypeVisitor extends Visitor {
         // se é um tipo data, seleciono o tipo do argumento com o ID do seletor
             // por isso preciso do lvalue do seletor para saber o ID
             // se nesta etapa o seletor não for to tipo select, é um erro
+
         SType t = temp.get(e.id);
         if (t != null) {
             for (Lvalue l : e.selectors) {
