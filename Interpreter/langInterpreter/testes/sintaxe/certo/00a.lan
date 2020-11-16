@@ -1,9 +1,26 @@
-f(x :: Int){
-   y = 2*x  + 1;
-   print y;
+
+
+data Ponto {
+   x :: Float;
+   y :: Float;
+}
+
+data PontoArray {
+   x :: Float[];
+   y :: Float[][];
 }
 
 main(){
-  z = 10;
-  f(z);
+
+    y = new PontoArray[5];
+    y[0] = new PontoArray;
+    y[0].x = new Float[10];
+    y[0].x[1] = 5;
+
+   y = new Ponto[][10];
+   y[0] = new Ponto[5];
+   y[0][1] = new Ponto;
+   y[0][1].x = 33;
+   y[0][1].y = 44;
+
 }

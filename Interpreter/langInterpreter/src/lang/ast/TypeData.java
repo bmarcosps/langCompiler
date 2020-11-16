@@ -11,7 +11,7 @@ public class TypeData extends Type {
     }
     @Override
     public String toString() {
-        return "Data";
+        return typeString;
     }
 
     @Override

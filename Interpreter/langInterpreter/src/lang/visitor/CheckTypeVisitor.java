@@ -10,6 +10,7 @@ public class CheckTypeVisitor extends Visitor {
     private STyFloat tyfloat = STyFloat.newSTyFloat();
     private STyBool tybool = STyBool.newSTyBool();
     private STyChar tychar = STyChar.newSTyChar();
+    private STyNull tynull = STyNull.newSTyNull();
     private STyErr tyerr = STyErr.newSTyErr();
 
 
@@ -265,13 +266,20 @@ public class CheckTypeVisitor extends Visitor {
         if (temp.get(e.getLval().id) == null && (e.getLval().selectors.size() == 0)) {
             // resolve o tipo da expressao e associa à variavel
             e.getValExp().accept(this);
-            temp.set(e.getLval().id, stk.pop());
+            SType aux = stk.pop();
+            if(!aux.match(tynull)){
+                temp.set(e.getLval().id, aux);
+            } else {
+                stk.push(tyerr);
+                logError.add(e.getLine() + ", " + e.getColumn() + ": Illegal null attribution to non-array or non-data variable " + e.getLval().id);
+            }
+
         } else { // se já está declarada ou se é algum outro tipo
             e.getLval().accept(this); // tipo da variavel
             e.getValExp().accept(this); // tipo da expressao
             if (!stk.pop().match(stk.pop())) {
                 stk.push(tyerr);
-                logError.add(e.getLine() + ", " + e.getColumn() + ": Atribuição ilegal para a variável " + e.getLval().id);
+                logError.add(e.getLine() + ", " + e.getColumn() + ": Illegal variable attribution " + e.getLval().toString());
             }
         }
     }
@@ -511,6 +519,9 @@ public class CheckTypeVisitor extends Visitor {
 
     @Override
     public void visit(ExpNew e) {
+        // o tipo new é definido pelo tipo base
+        // se tiver um seletor (ou seja, um array), crio o tipo array com o tipo base
+        // senão, é algum outro tipo --> Data
 
         //SType baseType = stk.pop();
         if(e.newExp != null){ //Array
@@ -518,9 +529,15 @@ public class CheckTypeVisitor extends Visitor {
             if(!stk.pop().match(tyint)){
                 stk.push(tyerr);
                 logError.add(e.getLine() + ", " + e.getColumn() + ": Index must be integer.");
+            } else {
+                // adiciona um tipo array à pilha de tipos com o tipo base do new
+                e.newType.accept(this);
+                stk.push(new STyArr(stk.pop()));
             }
+        } else {
+            e.newType.accept(this);
         }
-        e.newType.accept(this);
+
 
     }
 
@@ -554,14 +571,25 @@ public class CheckTypeVisitor extends Visitor {
 
     @Override
     public void visit(LvalueID e) {
+        // lvalue deve ter um tipo principal
+        // esse tipo é construiodo iterativamente de acordo com os seletores
+        // se é um tipo array, seleciono o tipo do argumento já encapsulado no TyArr
+        // se é um tipo data, seleciono o tipo do argumento com o ID do seletor
+            // por isso preciso do lvalue do seletor para saber o ID
+            // se nesta etapa o seletor não for to tipo select, é um erro
         SType t = temp.get(e.id);
         if (t != null) {
             for (Lvalue l : e.selectors) {
                 if (t instanceof STyArr) {
                     t = ((STyArr) t).getArg();
                 } else if (t instanceof STyData) {
-                    String id = ((LvalueSelect) l).selectorID;
-                    t = ((STyData) t).getTypes().get(id);
+                    if(l instanceof LvalueSelect){
+                        String id = ((LvalueSelect) l).selectorID;
+                        t = ((STyData) t).getTypes().get(id);
+                    } else {
+                        t = tyerr;
+                        break;
+                    }
                 } else {
                     t = tyerr;
                 }
@@ -608,6 +636,6 @@ public class CheckTypeVisitor extends Visitor {
 
     @Override
     public void visit(LiteralNull e) {
-        stk.push(null);
+        stk.push(tynull);
     }
 }

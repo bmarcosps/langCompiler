@@ -10,7 +10,8 @@ public class STyNull extends SType {
     public static STyNull newSTyNull(){ return st; }
 
     public boolean match(SType v){
-        return (v instanceof STyErr) ||(v instanceof STyNull);
+        return (v instanceof STyErr) || (v instanceof STyNull)
+                || (v instanceof STyData) || (v instanceof STyArr);
     }
 
     public String toString(){

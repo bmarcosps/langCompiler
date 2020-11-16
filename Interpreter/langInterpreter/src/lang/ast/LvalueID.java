@@ -24,6 +24,16 @@ public class LvalueID extends Lvalue {
     }
 
     @Override
+    public String toString() {
+        String str = id;
+        for(Lvalue v: selectors){
+            str += v.toString();
+        }
+        return str;
+
+    }
+
+    @Override
     public void accept(Visitor v) {
         v.visit(this);
     }

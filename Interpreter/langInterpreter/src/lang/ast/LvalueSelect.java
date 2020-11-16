@@ -15,6 +15,11 @@ public class LvalueSelect extends Lvalue {
     }
 
     @Override
+    public String toString() {
+        return "." + selectorID;
+    }
+
+    @Override
     public void accept(Visitor v) {
         v.visit(this);
     }

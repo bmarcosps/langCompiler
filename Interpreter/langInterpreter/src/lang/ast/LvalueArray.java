@@ -15,6 +15,13 @@ public class LvalueArray extends Lvalue {
     }
 
     @Override
+    public String toString() {
+        String str = "[]";
+        return str;
+
+    }
+
+    @Override
     public void accept(Visitor v) {
         v.visit(this);
     }

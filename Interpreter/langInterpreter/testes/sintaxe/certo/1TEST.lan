@@ -1,3 +1,4 @@
+
 data Ponto {
    x :: Float;
    y :: Float;
@@ -9,23 +10,6 @@ data PontoArray {
 }
 
 main(){
-    l = 2;
-    x = new Int[][];
-    print x;
-
-    y = new PontoArray[5];
-    y[0] = new PontoArray;
-    y[0].x = new Float[10];
-    y[0].x[1] = 5;
-    print y;
-
-    print y[0].x;
-
-
-   x = new Int[][10];
-   x[0] = new Int[5];
-   x[0][0] = 55;
-   print x;
 
    y = new Ponto[][10];
    y[0] = new Ponto[5];
@@ -37,4 +21,3 @@ main(){
    print y[0];
 
 }
-

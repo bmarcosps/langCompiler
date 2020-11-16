@@ -1,12 +1,12 @@
-f(x :: Int) : Int, Float{
-   y = 2*x  + 1;
-   return y, 1.5;
+data Ponto {
+   x :: Float;
+   y :: Float;
 }
 
+
 main(){
-  z = 10;
-  x = 1;
-  f(z)< x, w>;
-  print x;
-  print w;
+
+  k = new Ponto;
+  k = null;
+  k = new Ponto;
 }

@@ -5,6 +5,6 @@ data Ponto {
 
 main(){
     x = new Ponto;
-    x.x = 10;
+    x.x = 10.0;
    print x.x;
 }
