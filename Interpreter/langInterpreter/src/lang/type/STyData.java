@@ -1,3 +1,10 @@
+/*
+    Bruno Marcos Pinheiro da Silva
+    201565552AC
+
+    Seany Caroliny Oliveira Silva
+    201665566C
+*/
 package lang.type;
 
 import java.util.HashMap;
@@ -20,7 +27,6 @@ public class STyData extends SType {
     public boolean match(SType v){
         boolean r = false;
         if(  v instanceof STyData ){
-
             if(((STyData)v).getTypes().size() == ty.size() && ((STyData)v).getId().equals(this.id)){
                 r = true;
                 for (HashMap.Entry<String,SType> pair : ty.entrySet()) {
@@ -42,40 +48,6 @@ public class STyData extends SType {
         return s;
     }
 
-
-   /*
-    private SType ty[];
-
-    public STyData(SType t[]){
-        ty = t;
-    }
-
-    public SType[] getTypes(){ return ty; }
-
-    public boolean match(SType v){
-        boolean r = false;
-        if(  v instanceof STyData ){
-            if(((STyData)v).getTypes().length == ty.length ){
-                r = true;
-                for(int i = 0; i< ty.length; i++ ){
-                    r = r && ty[i].match( ((STyData)v).getTypes()[i] );
-                }
-            }
-        }
-        return r;
-    }
-
-    public String toString(){
-        String s = "";
-        if(ty.length > 0){
-            s = ty[0].toString();
-            for(int i =1; i < ty.length; i++){
-                s += "->" + ty[i].toString();
-            }
-        }
-        return s;
-    }
-    */
 }
 
 

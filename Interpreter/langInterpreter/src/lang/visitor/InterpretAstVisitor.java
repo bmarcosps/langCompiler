@@ -1,7 +1,13 @@
+/*
+    Bruno Marcos Pinheiro da Silva
+    201565552AC
+
+    Seany Caroliny Oliveira Silva
+    201665566C
+*/
 package lang.visitor;
 
 import lang.ast.*;
-
 import java.util.*;
 
 
@@ -182,7 +188,7 @@ public class  InterpretAstVisitor extends Visitor {
         try{
             e.printExp.accept(this);
             Object o = operands.pop();
-            System.out.println(o);
+            System.out.print(o);
         }catch(Exception x){
             throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") " + x.getMessage() );
         }

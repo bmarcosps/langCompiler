@@ -4,10 +4,15 @@ data Ponto {
    y :: Float;
 }
 
+data Ponto2 {
+   x :: Ponto;
+   y :: Ponto[];
+}
+
 g(x :: Int[]) : Int[]{
      x[0] = 50;
      x[1] = 680;
-     return x;
+     return null;
 }
 
 g(x :: Ponto) : Float, Float{
@@ -19,20 +24,15 @@ g(x :: Ponto) : Float, Float{
 f(x :: Int) : Int, Float{
      if(x < 10){
         y = 10;
-     }else{ y = 10;}
+        return y, 1.0;
+     }else{ y = 10;
+     return y, 1.0;}
 
-     return y, 1.0;
-}
 
-f(x :: Float) : Int, Float{
-     if(x < 10.0){
-        y = 20;
-     }else{ y = 20;}
-
-     return y, 1.0;
 }
 
 main(){
+
   y = new Ponto;
   g(y)< m, n>;
   print m;

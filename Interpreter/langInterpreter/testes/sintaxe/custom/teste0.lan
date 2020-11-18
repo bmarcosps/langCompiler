@@ -1,0 +1,17 @@
+data Ponto {
+   x :: Float;
+   y :: Float;
+}
+
+data Ponto2 {
+   x :: Ponto[][];
+   y :: Int;
+}
+
+main(){
+ x = new Ponto2;
+ x.x = new Ponto[][5];
+ x.x[0] = new Ponto[5];
+ x.x[0][0] = new Ponto;
+ print x.x[0][0];
+}

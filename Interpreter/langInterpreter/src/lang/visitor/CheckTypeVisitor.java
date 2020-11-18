@@ -1,3 +1,10 @@
+/*
+    Bruno Marcos Pinheiro da Silva
+    201565552AC
+
+    Seany Caroliny Oliveira Silva
+    201665566C
+*/
 package lang.visitor;
 
 import lang.ast.*;
@@ -13,14 +20,22 @@ public class CheckTypeVisitor extends Visitor {
     private STyNull tynull = STyNull.newSTyNull();
     private STyErr tyerr = STyErr.newSTyErr();
 
+    /*Variável que aramzena os erros de tipo encontrados durante a execução*/
     private ArrayList<String> logError;
 
+    /*Variável que armazena as informações de tipos Data*/
     private HashMap<String, SType> datas;
 
+    /*Variável que cria um escopo para cada função definida*/
     private TyEnv<LocalEnv<SType>> env;
+
+    /*Variável auxiliar que salva o escopo local de cada função*/
     private LocalEnv<SType> temp;
 
+    /*Pilha de tipos utilizada para a análise estática*/
     private Stack<SType> stk;
+
+    /*Variável auxiliar pra verifica a presença de returns em funções*/
     private boolean retChk;
 
     public CheckTypeVisitor(){
@@ -50,7 +65,7 @@ public class CheckTypeVisitor extends Visitor {
                 dataTypes.put(d.decls.get(i).id, stk.pop());
             }
             td = new STyData(d.id, dataTypes);
-            /*TODO: oq fazer????*/
+
             datas.put(d.id, td);
         }
 
@@ -247,16 +262,13 @@ public class CheckTypeVisitor extends Visitor {
         if (temp.getFuncType() instanceof STyFunc) {
             SType[] t = ((STyFunc) temp.getFuncType()).getTypesReturns();
             for(int i = e.returnExp.size()-1; i >=0 ; i--){
-                if(!t[i].match(stk.pop())){
+                if(!stk.pop().match(t[i])){
                     stk.push(tyerr);
                     logError.add(e.getLine() + ", " + e.getColumn() + ": Invalid Return Type");
                 }
             }
         }
-        //TODO: esse else nao faz sentido ???
-        /*else {
-            stk.pop().match(temp.getFuncType());
-        }*/
+
         retChk = true;
     }
 
@@ -313,7 +325,7 @@ public class CheckTypeVisitor extends Visitor {
                     if (temp.get(lv.id) == null && lv.selectors.size() == 0) {
                         // se não esta declarado ainda, adiciona o tipo do retorno, conferindo o tipo null
                         //temp.set(lv.id, tf.getTypesReturns()[i]);
-                        /*TODO testar mudança */
+
                         if(!tf.getTypesReturns()[i].match(tynull)){
                             temp.set(lv.id, tf.getTypesReturns()[i]);
                         } else {
@@ -382,7 +394,6 @@ public class CheckTypeVisitor extends Visitor {
         switch (op){
             case "==":
             case "!=":
-                /* TODO: CONFERIR O MATCH */
                 if( right.match(left) ) {
                     stk.push(tybool);
                 }else{
@@ -410,7 +421,6 @@ public class CheckTypeVisitor extends Visitor {
         String e = line + ", " + col + ": Operator " + op + " does not apply to type " + right.toString();
         switch (op){
             case '!':
-                /* TODO: CONFERIR O MATCH */
                 if( right.match(tybool) ) {
                     stk.push(tybool);
                 }else{
