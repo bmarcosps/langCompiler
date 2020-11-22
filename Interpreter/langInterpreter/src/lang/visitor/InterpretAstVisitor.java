@@ -29,6 +29,7 @@ public class  InterpretAstVisitor extends Visitor {
         stk = new Stack<Type>();
         retMode = false;
         debug = false;
+
     }
 
     public InterpretAstVisitor(boolean debug){
@@ -49,20 +50,9 @@ public class  InterpretAstVisitor extends Visitor {
             if(f.funcIdTypes.equals("main")){
                 main = f;
             }
-            /*
-            String id = f.funcId;
-            if(!f.funcId.equals("main")) {
-                for (Param par : f.paramList) {
-                    id += par.paramType.toString();
-                }
-            }else {
-                main = f;
-            }
-            funcs.put(id,f);
-             */
         }
         if(main == null){
-            throw new RuntimeException( "Function main not found! aborting ! ");
+            throw new RuntimeException( "Function main not found! Main must have no parameters! Aborting ! ");
         }
         main.accept(this);
 
@@ -709,6 +699,11 @@ public class  InterpretAstVisitor extends Visitor {
         }catch(Exception x){
             throw new RuntimeException( " (" + e.getLine() + ", " + e.getColumn() + ") " + x.getMessage() );
         }
+    }
+
+    @Override
+    public void visit(Decl d) {
+
     }
 
     @Override

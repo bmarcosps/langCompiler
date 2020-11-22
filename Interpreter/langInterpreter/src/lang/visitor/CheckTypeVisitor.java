@@ -46,7 +46,7 @@ public class CheckTypeVisitor extends Visitor {
     }
 
     public int getNumErrors(){ return logError.size(); }
-
+    public TyEnv<LocalEnv<SType>> getEnv() {return env;}
     public void printErrors(){
         for(String s : logError){
             System.out.println(s);
@@ -668,5 +668,10 @@ public class CheckTypeVisitor extends Visitor {
     @Override
     public void visit(LiteralNull e) {
         stk.push(tynull);
+    }
+
+    @Override
+    public void visit(Decl d) {
+
     }
 }

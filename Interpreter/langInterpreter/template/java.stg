@@ -1,0 +1,114 @@
+program(name, datas, funcs) ::= <<
+import java.util.*;
+public class <name> {
+    <datas; separator="\n\n">
+    <funcs; separator="\n\n">
+
+    public static void main(String args[]) {
+        main();
+    }
+}
+>>
+
+data(name, decls) ::= <<
+public static class <name> {
+    <decls; separator=";\n">;
+}
+>>
+
+func(type, name, params, decl, cmd) ::= <<
+static <if(type)>List\<Object><else>void<endif> <name>(<params; separator=", ">) {
+    List\<Object> auxReturnList = new ArrayList\<>();
+    <if(decl)><decl; separator=";\n">;<endif>
+    <cmd>
+}
+>>
+
+decl(type, name) ::= "<type> <name>"
+
+param(type, name) ::= "<type> <name>"
+
+array_type(type) ::= "<type>[]"
+int_type() ::= "int"
+float_type() ::= "float"
+boolean_type() ::= "boolean"
+char_type() ::= "char"
+data_type(dataId) ::= "<dataId>"
+
+cmd_list(cmds) ::= <<
+<cmds; separator="\n">
+>>
+
+if(exp, thn, els) ::= <<
+if(<exp>) {
+    <thn>
+} <if(els)>else {
+    <els>
+}
+<endif>
+>>
+
+iterate(exp, cmd) ::= <<
+for(int AUX_VAL_RES_<exp.id> = <exp.exp>; AUX_VAL_RES_<exp.id> > 0; AUX_VAL_RES_<exp.id>--) {
+    <cmd>;
+}
+>>
+
+read(lval) ::= <<
+    <lval> = new Scanner(System.in).nextInt();
+>>
+
+print(exp) ::= <<
+System.out.print(<exp>);
+ >>
+
+return(returnExps) ::= <<
+auxReturnList.clear();
+<returnExps : {exp | auxReturnList.add(<exp>);
+}>
+return auxReturnList;
+
+>>
+
+assign(lval, exp) ::= <<
+<lval.lv> =  <exp>;
+
+>>
+
+
+call_cmd(name, args, exp) ::= <<
+auxReturnList = <name>(<args; separator=", ">);
+<exp : {exp | <exp.lv> = (<exp.type>) auxReturnList.get(0);
+auxReturnList.remove(0);
+}>
+>>
+
+mul_expr(left_expr, right_expr) ::= "(<left_expr> * <right_expr>)"
+div_expr(left_expr, right_expr) ::= "(<left_expr> / <right_expr>)"
+mod_expr(left_expr, right_expr) ::= "(<left_expr> % <right_expr>)"
+add_expr(left_expr, right_expr) ::= "(<left_expr> + <right_expr>)"
+sub_expr(left_expr, right_expr) ::= "(<left_expr> - <right_expr>)"
+
+lt_expr(left_expr, right_expr) ::= "(<left_expr> \< <right_expr>)"
+equals_expr(left_expr, right_expr) ::= "(<left_expr> == <right_expr>)"
+not_equals_expr(left_expr, right_expr) ::= "(<left_expr> != <right_expr>)"
+and_expr(left_expr, right_expr) ::= "(<left_expr> && <right_expr>)"
+not_expr(expr) ::= "!<expr>"
+min_expr(expr) ::= "-<expr>"
+
+call_expr(name, args, exp) ::= << (<exp.type>) <name>(<args; separator=", ">).get(<exp.exp>) >>
+
+boolean_expr(val) ::= "<val>"
+float_expr(val) ::= "<val>f"
+int_expr(val) ::= "<val>"
+char_expr(val) ::= "'<val>'"
+null_expr() ::= "null"
+
+new_expr_array(type, expr) ::= "new <type>[<expr>]"
+new_expr_type(type) ::= "new <type>"
+
+
+lvalue(name, array) ::= "<name><array>"
+array_access(expr) ::= "[<expr>]"
+data_access(expr) ::= ".<expr>"
+

@@ -3,8 +3,6 @@ data Ponto {
    y :: Float;
 }
 
-main(){
-    x = new Ponto;
-    x.x = 10.0;
+main(x :: Ponto){
    print x.x;
 }

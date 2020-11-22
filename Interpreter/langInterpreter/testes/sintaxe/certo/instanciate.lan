@@ -3,7 +3,7 @@ data Ponto {
    y :: Float;
 }
 
-main(){
+main(l :: Int){
    p = new Ponto;
    z = new Int[][2*l];
    z[0] = new Int[10];

@@ -1,5 +1,4 @@
 main(){
-  x = 20;
-  iterate(10)
-     print x;
+  iterate(10) 
+     x = 10;
 }

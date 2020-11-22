@@ -2,10 +2,14 @@ package lang.ast;
 
 import lang.visitor.Visitor;
 
+
+
+
 public class TypeChar extends Type {
     public TypeChar(int line, int column) {
         super(line, column);
     }
+
 
     public boolean match(Type t){
         return t instanceof TypeChar;
@@ -19,3 +23,4 @@ public class TypeChar extends Type {
         v.visit(this);
     }
 }
+

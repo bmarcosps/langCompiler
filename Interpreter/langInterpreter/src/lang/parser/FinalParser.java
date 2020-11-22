@@ -7,8 +7,12 @@
 */
 package lang.parser;
 
-import lang.ast.SuperNode;
+import lang.ast.*;
+import lang.visitor.*;
+import lang.type.*;
+
 import lang.visitor.CheckTypeVisitor;
+import lang.visitor.CodeGeneratorVisitor;
 import lang.visitor.InterpretAstVisitor;
 import org.antlr.v4.runtime.*;
 
@@ -37,9 +41,15 @@ public class FinalParser implements ParseAdaptor {
             CheckTypeVisitor ctv = new CheckTypeVisitor();
             result.accept(ctv);
 
-            System.out.println("[  Interpreting  ]");
-            InterpretAstVisitor iav = new InterpretAstVisitor();
-            result.accept(iav);
+            TyEnv<LocalEnv<SType>> env = ctv.getEnv();
+
+            CodeGeneratorVisitor cgv = new CodeGeneratorVisitor("Main" ,env);
+            result.accept(cgv);
+
+
+            //System.out.println("[  Interpreting  ]");
+            //InterpretAstVisitor iav = new InterpretAstVisitor();
+            //result.accept(iav);
             return result;
 
         } catch (Exception e) {

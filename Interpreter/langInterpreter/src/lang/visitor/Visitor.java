@@ -72,6 +72,8 @@ public abstract  class  Visitor {
     public abstract void visit(LiteralInt e);
     public abstract void visit(LiteralNull e);
 
+    public abstract void visit(Decl d);
+
 
 
 /*

@@ -7,6 +7,7 @@
 */
 package lang.type;
 
+import java.util.Set;
 import java.util.TreeMap;
 
 public class TyEnv<A> {
@@ -43,6 +44,8 @@ public class TyEnv<A> {
         }
         return s;
     }
+
+    public Set<String> getKeys() {return typeEnv.keySet();}
 
 
 }

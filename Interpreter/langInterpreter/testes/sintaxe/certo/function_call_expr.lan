@@ -4,7 +4,7 @@ f(x :: Int) : Int, Float{
    return y, 1.5;
 }
 
-main(){
+main(v :: Int[], f :: Float){
   z = 10;
   h = 2*f(z)[0] + f(z)[1];
   print h;
