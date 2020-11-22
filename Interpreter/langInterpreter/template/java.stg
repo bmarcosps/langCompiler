@@ -46,12 +46,14 @@ if(<exp>) {
     <els>
 }
 <endif>
+
 >>
 
 iterate(exp, cmd) ::= <<
 for(int AUX_VAL_RES_<exp.id> = <exp.exp>; AUX_VAL_RES_<exp.id> > 0; AUX_VAL_RES_<exp.id>--) {
-    <cmd>;
+    <cmd>
 }
+
 >>
 
 read(lval) ::= <<
@@ -60,7 +62,8 @@ read(lval) ::= <<
 
 print(exp) ::= <<
 System.out.print(<exp>);
- >>
+
+>>
 
 return(returnExps) ::= <<
 auxReturnList.clear();
@@ -96,15 +99,15 @@ and_expr(left_expr, right_expr) ::= "(<left_expr> && <right_expr>)"
 not_expr(expr) ::= "!<expr>"
 min_expr(expr) ::= "-<expr>"
 
-call_expr(name, args, exp) ::= << (<exp.type>) <name>(<args; separator=", ">).get(<exp.exp>) >>
+call_expr(name, args, exp) ::= <<(<exp.type>) <name>(<args; separator=", ">).get(<exp.exp>) >>
 
 boolean_expr(val) ::= "<val>"
 float_expr(val) ::= "<val>f"
 int_expr(val) ::= "<val>"
-char_expr(val) ::= "'<val>'"
+char_expr(val) ::= "<val>"
 null_expr() ::= "null"
 
-new_expr_array(type, expr) ::= "new <type>[<expr>]"
+new_expr_array(type, expr, squares) ::= "new <type>[<expr>]<squares>"
 new_expr_type(type) ::= "new <type>"
 
 

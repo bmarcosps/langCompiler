@@ -547,7 +547,12 @@ public class BuildAstVisitor extends LangParserBaseVisitor<SuperNode> {
         int column = ctx.getStart().getCharPositionInLine();
         String s = ctx.LITERAL_CHAR().getText();
         //LITERAL_CHAR : '\'' (~['"\\] | '\\' ( 'r' | 'n' | 't' | 'b' | '\'' | '"' | '\\' )) '\'' ;
+        boolean esc = false;
 
+        if(s.equals("'\\\\'") || s.equals("'\\n'") || s.equals("'\\r'") || s.equals("'\\t'") || s.equals("'\\b'") || s.equals("'\\''")  || s.equals("'\\\"'") ){
+            esc = true;
+        }
+        /*
         String newString =  s.replace("'\\\\'", "'\\'");
         newString = newString.replace("'\\n'", "'\n'");
         newString = newString.replace("'\\r'", "'\r'");
@@ -556,10 +561,10 @@ public class BuildAstVisitor extends LangParserBaseVisitor<SuperNode> {
 
         newString = newString.replace("'\\''", "'''");
         newString = newString.replace("'\\\"'", "'\"'");
+
         Character c = newString.charAt(1);
-
-
-        LiteralChar litNode = new LiteralChar(line, column, c);
+        */
+        LiteralChar litNode = new LiteralChar(line, column, s, esc);
         return litNode;
         //return super.visitLiteralChar(ctx);
     }

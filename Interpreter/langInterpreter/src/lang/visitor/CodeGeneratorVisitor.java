@@ -405,7 +405,17 @@ public class CodeGeneratorVisitor extends Visitor  {
         e.newType.accept(this);
         if(e.newExp != null){
             aux = groupTemplate.getInstanceOf("new_expr_array");
+
+            if(e.newType instanceof TypeArray){
+                Type auxType = e.newType;
+                while(auxType instanceof TypeArray){
+                    aux.add("squares", "[]");
+                    auxType = ((TypeArray) auxType).getTyArg();
+                }
+                auxType.accept(this);
+            }
             aux.add("type", type);
+
             e.newExp.accept(this);
             aux.add("expr", expr);
         } else {
