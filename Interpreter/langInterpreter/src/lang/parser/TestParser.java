@@ -33,7 +33,7 @@ public class TestParser {
                for(File s : inst){
                    pth = s.getPath();
                    System.out.print("Testando " + pth + filler(50 -pth.length()));
-                   if(adp.parseFile(s.getPath()) != null){
+                   if(adp.parseFile(s.getPath(), s.getName()) != null){
                        System.out.println("[  OK  ]");
                        System.out.println("\n--------------------------------------- \n");
                        flips++;

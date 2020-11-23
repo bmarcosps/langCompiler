@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class FinalParser implements ParseAdaptor {
 
-    public SuperNode parseFile(String path) throws IOException {
+    public SuperNode parseFile(String path, String filename) throws IOException {
         System.out.println("\n--------------------------------------- ");
         LangLexer lexer = new LangLexer(CharStreams.fromFileName(path));
         LangParser parser = new LangParser(new CommonTokenStream(lexer));
@@ -36,20 +36,17 @@ public class FinalParser implements ParseAdaptor {
             BuildAstVisitor pv = new BuildAstVisitor();
             result = pv.visit(parser.prog());
 
-
             System.out.println("[  Cheking Types  ]");
             CheckTypeVisitor ctv = new CheckTypeVisitor();
             result.accept(ctv);
 
             TyEnv<LocalEnv<SType>> env = ctv.getEnv();
 
-            CodeGeneratorVisitor cgv = new CodeGeneratorVisitor("Main" ,env);
+            String outputName = filename.substring(0, 1).toUpperCase() + filename.substring(1, filename.length()-4);
+
+            CodeGeneratorVisitor cgv = new CodeGeneratorVisitor(outputName ,env);
             result.accept(cgv);
 
-
-            //System.out.println("[  Interpreting  ]");
-            //InterpretAstVisitor iav = new InterpretAstVisitor();
-            //result.accept(iav);
             return result;
 
         } catch (Exception e) {

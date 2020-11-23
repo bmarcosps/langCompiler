@@ -1,10 +1,18 @@
+/*
+    Bruno Marcos Pinheiro da Silva
+    201565552AC
+
+    Seany Caroliny Oliveira Silva
+    201665566C
+*/
 package lang.visitor;
 
 import lang.ast.*;
 import lang.type.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -14,24 +22,30 @@ import org.stringtemplate.v4.STGroupFile;
 
 
 public class CodeGeneratorVisitor extends Visitor  {
-    /*Variável que cria um escopo para cada função definida*/
+    /*Variável que armazena as variáveis presentes em cada função */
     private TyEnv<LocalEnv<SType>> env;
 
-    /*Variável auxiliar que salva o escopo local de cada função*/
+    /*Variável auxiliar para acessarmos o escopo específico de alguma função*/
     private LocalEnv<SType> temp;
 
-
     private STGroup groupTemplate;
+    private FileWriter file;
+
     private ST type, cmd, expr;
     private List<ST> datas, funcs, params, decls;
     private String fileName;
 
-    public CodeGeneratorVisitor(String outputfile, TyEnv<LocalEnv<SType>> env){
+    public CodeGeneratorVisitor(String outputfile, TyEnv<LocalEnv<SType>> env) throws IOException {
         groupTemplate = new STGroupFile("template/java.stg");
+        file = new FileWriter("codeOutput/" + outputfile + ".java");
         this.env = env;
         this.fileName = outputfile;
     }
 
+    private void writeToFile(ST template) throws IOException {
+        file.write(template.render()); // newline
+        file.close();
+    }
 
     @Override
     public void visit(Prog p) {
@@ -53,6 +67,12 @@ public class CodeGeneratorVisitor extends Visitor  {
         template.add("funcs", funcs);
 
         System.out.println(template.render());
+
+        try {
+            writeToFile(template);
+        } catch (IOException e) {
+            throw new RuntimeException("Code Generation failed.");
+        }
     }
 
     @Override
@@ -429,8 +449,6 @@ public class CodeGeneratorVisitor extends Visitor  {
     @Override
     public void visit(ExpFunctionCall e) {
         //call_expr(name, args, exp) ::= <<<name>(<args; separator=", ">).at(exp)>>
-
-
 
         ST aux = groupTemplate.getInstanceOf("call_expr");
         aux.add("name", e.funcId);

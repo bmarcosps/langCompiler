@@ -18,7 +18,7 @@ public static class <name> {
 
 func(type, name, params, decl, cmd) ::= <<
 static <if(type)>List\<Object><else>void<endif> <name>(<params; separator=", ">) {
-    List\<Object> auxReturnList = new ArrayList\<>();
+    List\<Object> _auxReturnList = new ArrayList\<>();
     <if(decl)><decl; separator=";\n">;<endif>
     <cmd>
 }
@@ -50,14 +50,14 @@ if(<exp>) {
 >>
 
 iterate(exp, cmd) ::= <<
-for(int AUX_VAL_RES_<exp.id> = <exp.exp>; AUX_VAL_RES_<exp.id> > 0; AUX_VAL_RES_<exp.id>--) {
+for(int _AUX_<exp.id> = <exp.exp>; _AUX_<exp.id> > 0; _AUX_<exp.id>--) {
     <cmd>
 }
 
 >>
 
 read(lval) ::= <<
-    <lval> = new Scanner(System.in).nextInt();
+<lval> = new Scanner(System.in).nextInt();
 >>
 
 print(exp) ::= <<
@@ -66,10 +66,10 @@ System.out.print(<exp>);
 >>
 
 return(returnExps) ::= <<
-auxReturnList.clear();
-<returnExps : {exp | auxReturnList.add(<exp>);
+_auxReturnList.clear();
+<returnExps : {exp | _auxReturnList.add(<exp>);
 }>
-return auxReturnList;
+return _auxReturnList;
 
 >>
 
@@ -80,9 +80,9 @@ assign(lval, exp) ::= <<
 
 
 call_cmd(name, args, exp) ::= <<
-auxReturnList = <name>(<args; separator=", ">);
-<exp : {exp | <exp.lv> = (<exp.type>) auxReturnList.get(0);
-auxReturnList.remove(0);
+_auxReturnList = <name>(<args; separator=", ">);
+<exp : {exp | <exp.lv> = (<exp.type>) _auxReturnList.get(0);
+_auxReturnList.remove(0);
 }>
 >>
 

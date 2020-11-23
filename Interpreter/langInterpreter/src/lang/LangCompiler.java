@@ -45,7 +45,7 @@ public class LangCompiler{
               return; 
           }
 
-          SuperNode result = langParser.parseFile(args[1]);
+          SuperNode result = langParser.parseFile(args[1], args[1]);
           if(result == null){
                System.err.println("Aborting due to syntax error(s)");
                System.exit(1);
