@@ -10,12 +10,13 @@ data PontoArray {
 }
 
 main(){
-
+   x = new Float[][][20];
+   x[0] = new Float[][20];
    y = new Ponto[][10];
    y[0] = new Ponto[5];
    y[0][1] = new Ponto;
-   y[0][1].x = 33;
-   y[0][1].y = 44;
+   y[0][1].x = 33.0;
+   y[0][1].y = 44.0;
    print y[0][1].x;
 
    print y[0];

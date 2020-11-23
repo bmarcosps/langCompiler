@@ -562,8 +562,11 @@ public class CheckTypeVisitor extends Visitor {
                 e.newType.accept(this);
                 stk.push(new STyArr(stk.pop()));
             }
-        } else {
+        } else if(e.newType instanceof TypeData){
             e.newType.accept(this);
+        } else {
+            stk.push(tyerr);
+            logError.add(e.getLine() + ", " + e.getColumn() + ": Type must be Array or Data.");
         }
     }
 
